@@ -286,9 +286,9 @@
         <h1 class="hero-in-1 font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.08] tracking-tight" data-i18n="hero.h1">Автобус билетін бір орыннан табыңыз</h1>
         <p class="hero-in-2 mt-5 text-white/80 text-lg leading-relaxed max-w-lg" data-i18n="hero.sub">Қазақстан мен көрші елдер бойынша жүздеген бағыт, сенімді тасымалдаушылар, ыңғайлы уақыт.</p>
         <div class="hero-in-3 mt-8 flex flex-wrap gap-x-8 gap-y-3">
-          <div><span class="font-heading font-extrabold text-2xl text-white">500+</span> <span class="text-white/70 text-sm" data-i18n="hero.statRoutes">бағыт</span></div>
-          <div><span class="font-heading font-extrabold text-2xl text-white">60+</span> <span class="text-white/70 text-sm" data-i18n="hero.statCities">қала</span></div>
-          <div><span class="font-heading font-extrabold text-2xl text-white">4.8</span> <span class="text-white/70 text-sm" data-i18n="hero.statRating">баға</span></div>
+          <div><span class="font-heading font-extrabold text-2xl text-white js-count" data-count-to="500" data-count-suffix="+">500+</span> <span class="text-white/70 text-sm" data-i18n="hero.statRoutes">бағыт</span></div>
+          <div><span class="font-heading font-extrabold text-2xl text-white js-count" data-count-to="60" data-count-suffix="+">60+</span> <span class="text-white/70 text-sm" data-i18n="hero.statCities">қала</span></div>
+          <div><span class="font-heading font-extrabold text-2xl text-white js-count" data-count-to="4.8" data-count-decimals="1">4.8</span> <span class="text-white/70 text-sm" data-i18n="hero.statRating">баға</span></div>
         </div>
       </div>
 
@@ -301,7 +301,7 @@
         <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-floating px-5 py-4 flex items-center gap-3 z-10">
           <span class="w-11 h-11 rounded-full bg-brandLight flex items-center justify-center"><i class="ph ph-fill ph-star text-brandBlue text-xl"></i></span>
           <div>
-            <p class="font-heading font-extrabold text-lg leading-none">4.8<span class="text-ink/40 font-medium text-sm">/5</span></p>
+            <p class="font-heading font-extrabold text-lg leading-none"><span class="js-count" data-count-to="4.8" data-count-decimals="1">4.8</span><span class="text-ink/40 font-medium text-sm">/5</span></p>
             <p class="text-xs text-ink/55 mt-1" data-i18n="hero.reviewsCount">21 384 баға</p>
           </div>
         </div>
@@ -462,10 +462,10 @@
   <div class="absolute inset-0 bg-gradient-to-t from-brandNavy via-brandNavy/70 to-brandNavy/40" style="mix-blend-mode:multiply; background-color:#062C5B;" aria-hidden="true"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" aria-hidden="true"></div>
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">500+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.routes">Бағыт</p></div>
-    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">60+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.cities">Қала</p></div>
-    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">1500+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.trips">Аптасына рейс</p></div>
-    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">4.8</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.rating">Орташа баға</p></div>
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white js-count" data-count-to="500" data-count-suffix="+">500+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.routes">Бағыт</p></div>
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white js-count" data-count-to="60" data-count-suffix="+">60+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.cities">Қала</p></div>
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white js-count" data-count-to="1500" data-count-suffix="+">1500+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.trips">Аптасына рейс</p></div>
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white js-count" data-count-to="4.8" data-count-decimals="1">4.8</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.rating">Орташа баға</p></div>
   </div>
 </section>
 
@@ -663,6 +663,8 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
 /* =====================================================================
    TRANSLATIONS
@@ -1240,28 +1242,56 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 
 /* =====================================================================
-   SCROLL REVEALS (GSAP + ScrollTrigger, IntersectionObserver fallback)
+   SCROLL TRANSITIONS (GSAP + ScrollTrigger, IntersectionObserver fallback)
    ===================================================================== */
+const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const HAS_GSAP = !!(window.gsap && window.ScrollTrigger);
+if (HAS_GSAP) gsap.registerPlugin(ScrollTrigger);
+
 function initReveals(){
   const reveals = document.querySelectorAll('.reveal');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce || !('IntersectionObserver' in window)) {
+  if (REDUCE_MOTION || !('IntersectionObserver' in window)) {
     reveals.forEach(el => el.classList.add('revealed'));
     return;
   }
 
-  // Staggered reveal-on-scroll, grouped by containing section so siblings
-  // cascade together instead of popping in one by one.
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const section = entry.target.closest('section') || document.body;
-      const siblings = Array.from(section.querySelectorAll('.reveal:not(.revealed)'));
-      siblings.forEach((el, i) => setTimeout(() => el.classList.add('revealed'), i * 70));
-      siblings.forEach(el => io.unobserve(el));
+  if (HAS_GSAP) {
+    // Real motion: fade + rise for text, fade + rise + gentle scale-in for
+    // cards and media, staggered per section so siblings cascade together.
+    // This is the "transition" effect on scroll the design calls for.
+    document.querySelectorAll('section').forEach(section => {
+      const items = Array.from(section.querySelectorAll('.reveal'));
+      if (!items.length) return;
+      items.forEach(el => {
+        const isCard = el.classList.contains('card-hover') || el.tagName === 'PICTURE' || el.querySelector('img, picture');
+        gsap.set(el, { opacity: 0, y: 32, scale: isCard ? 0.94 : 1 });
+      });
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 82%',
+        once: true,
+        onEnter: () => {
+          gsap.to(items, {
+            opacity: 1, y: 0, scale: 1,
+            duration: 0.85, ease: 'power3.out', stagger: 0.09,
+            onComplete: () => items.forEach(el => el.classList.add('revealed')),
+          });
+        },
+      });
     });
-  }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
-  reveals.forEach(el => io.observe(el));
+  } else {
+    // Fallback: plain CSS transition driven by a class toggle.
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const section = entry.target.closest('section') || document.body;
+        const siblings = Array.from(section.querySelectorAll('.reveal:not(.revealed)'));
+        siblings.forEach((el, i) => setTimeout(() => el.classList.add('revealed'), i * 70));
+        siblings.forEach(el => io.unobserve(el));
+      });
+    }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(el => io.observe(el));
+  }
 
   // Safety net: content already sitting inside the viewport must never stay
   // invisible because of a missed trigger (resize edge case, slow observer, etc).
@@ -1269,9 +1299,69 @@ function initReveals(){
     reveals.forEach(el => {
       if (el.classList.contains('revealed')) return;
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) el.classList.add('revealed');
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        if (HAS_GSAP) gsap.set(el, { opacity: 1, y: 0, scale: 1 });
+        el.classList.add('revealed');
+      }
     });
-  }, 1800);
+  }, 2000);
+}
+
+/* =====================================================================
+   NUMBER COUNTERS ("500+", "60+", "4.8" etc counting up into view)
+   ===================================================================== */
+function formatCount(value, decimals, suffix){
+  return value.toFixed(decimals) + (suffix || '');
+}
+
+function runCounter(el){
+  if (el.dataset.counted) return;
+  el.dataset.counted = '1';
+  const target = parseFloat(el.dataset.countTo);
+  const decimals = el.dataset.countDecimals ? parseInt(el.dataset.countDecimals, 10) : 0;
+  const suffix = el.dataset.countSuffix || '';
+
+  if (REDUCE_MOTION || isNaN(target)) {
+    el.textContent = formatCount(target, decimals, suffix);
+    return;
+  }
+
+  if (HAS_GSAP) {
+    const proxy = { v: 0 };
+    gsap.to(proxy, {
+      v: target,
+      duration: 1.7,
+      ease: 'power2.out',
+      onUpdate: () => { el.textContent = formatCount(proxy.v, decimals, suffix); },
+      onComplete: () => { el.textContent = formatCount(target, decimals, suffix); },
+    });
+  } else {
+    // rAF fallback with a simple ease-out curve, no GSAP required.
+    const duration = 1400;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = formatCount(target * eased, decimals, suffix);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+}
+
+function initCounters(){
+  const counters = document.querySelectorAll('.js-count');
+  if (!counters.length) return;
+  if (!('IntersectionObserver' in window)) {
+    counters.forEach(runCounter);
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { runCounter(entry.target); io.unobserve(entry.target); }
+    });
+  }, { threshold: .4 });
+  counters.forEach(el => io.observe(el));
 }
 
 /* =====================================================================
@@ -1280,7 +1370,7 @@ function initReveals(){
 document.getElementById('copyright-year').textContent = new Date().getFullYear();
 lang = detectLang();
 applyTranslations();
-window.addEventListener('load', initReveals);
+window.addEventListener('load', () => { initReveals(); initCounters(); });
 </script>
 </body>
 </html>
