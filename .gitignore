@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# QA screenshots taken during development (see CLAUDE.md screenshot workflow)
+temporary screenshots/
+
+# Claude Code / skills tooling local state (not site content)
+.claude/
+.agents/
+skills-lock.json
+
+# Misplaced skill-package internals that ended up in this folder
+# (frontend-design / ui-ux-pro-max plugin files, not part of the website)
+SKILL.md
+SKILL f.md
+README-skill.md
+plugin.json
+core.py
+core.cpython-*.pyc
+design_system.py
+design_system.cpython-*.pyc
+search.py
+search.cpython-*.pyc
+
+# OS junk
+.DS_Store
+Thumbs.db

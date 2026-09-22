@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bileton — автобус билеттерін онлайн сатып алу</title>
+<meta name="description" content="Bileton — Қазақстан мен көрші елдер бойынша автобус билеттерін іздеу платформасы. Жүздеген бағыт, сенімді тасымалдаушылар, ыңғайлы қосымша.">
+<meta name="theme-color" content="#062C5B">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+<link rel="canonical" href="https://bileton.kz/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bileton">
+<meta property="og:title" content="Bileton — автобус билеттерін онлайн сатып алу">
+<meta property="og:description" content="Қазақстан мен көрші елдер бойынша жүздеген бағыт. Іздеңіз, таңдаңыз, жолға шығыңыз.">
+<meta property="og:image" content="https://bileton.kz/assets/img/hero-coastal.jpg">
+<meta property="og:url" content="https://bileton.kz/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="preload" as="image" href="assets/img/hero-coastal.webp" fetchpriority="high">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brandNavy: '#062C5B',
+          brandBlue: '#0A6BFF',
+          brandCyan: '#00D1FF',
+          brandLight: '#E6F4FF',
+          ink: '#0B1A2B',
+          canvas: '#F8FAFC'
+        },
+        fontFamily: {
+          heading: ['Montserrat', 'sans-serif'],
+          body: ['"Golos Text"', 'sans-serif']
+        },
+        boxShadow: {
+          card: '0 4px 16px rgba(6,44,91,0.08)',
+          elevated: '0 12px 32px rgba(6,44,91,0.16), 0 2px 8px rgba(6,44,91,0.08)',
+          floating: '0 20px 60px rgba(6,44,91,0.24), 0 6px 16px rgba(0,0,0,0.10)'
+        },
+        maxWidth: { '8xl': '90rem' }
+      }
+    }
+  };
+</script>
+
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Bileton",
+  "url": "https://bileton.kz/",
+  "logo": "https://bileton.kz/assets/img/logo-full.png",
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Bileton",
+  "url": "https://bileton.kz/"
+}
+</script>
+
+<style>
+  :root{
+    --navy:#062C5B; --blue:#0A6BFF; --cyan:#00D1FF; --light:#E6F4FF; --ink:#0B1A2B; --bg:#F8FAFC;
+    --header-h: 76px;
+    --font-heading:'Montserrat',sans-serif;
+    --font-body:'Golos Text',sans-serif;
+  }
+  @media (max-width: 767px){ :root{ --header-h: 64px; } }
+
+  html, body{ overflow-x:hidden; width:100%; background:var(--bg); }
+  * { box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{ font-family:var(--font-body); color:var(--ink); overscroll-behavior-y:none; }
+  h1,h2,h3,h4,.font-heading{ font-family:var(--font-heading); letter-spacing:-0.02em; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+
+  /* Chinese script needs its own font stack; toggled on <html class="lang-zh"> */
+  .lang-zh, .lang-zh *{ font-family:'Noto Sans SC', var(--font-body), sans-serif !important; }
+
+  body.menu-open{ position:fixed; width:100%; }
+
+  /* subtle SVG grain, fixed + pointer-events none so it never repaints on scroll */
+  .grain{
+    position:fixed; inset:0; z-index:5; pointer-events:none; opacity:.045; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .skip-link{ position:fixed; top:-100px; left:1rem; z-index:100; background:var(--navy); color:#fff; padding:.75rem 1.25rem; border-radius:9999px; transition:top .2s; }
+  .skip-link:focus{ top:1rem; }
+
+  :focus-visible{ outline:2px solid var(--blue); outline-offset:2px; border-radius:4px; }
+
+  /* header state */
+  #site-header{ transition: box-shadow .25s ease, background-color .25s ease; }
+  #site-header.is-scrolled{ box-shadow: 0 8px 30px rgba(6,44,91,0.10); background-color: rgba(255,255,255,0.96); }
+
+  /* hamburger -> X morph (transform + opacity only) */
+  .burger-box{ width:24px; height:18px; position:relative; }
+  .burger-bar{ position:absolute; left:0; right:0; height:2px; border-radius:2px; background:var(--navy); transition:transform .28s cubic-bezier(.5,1.6,.4,1), opacity .2s ease; }
+  .burger-bar:nth-child(1){ top:0; }
+  .burger-bar:nth-child(2){ top:8px; }
+  .burger-bar:nth-child(3){ top:16px; }
+  #menu-toggle[aria-expanded="true"] .burger-bar:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+  #menu-toggle[aria-expanded="true"] .burger-bar:nth-child(2){ opacity:0; }
+  #menu-toggle[aria-expanded="true"] .burger-bar:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
+
+  /* mobile menu panel */
+  /* z-index stays BELOW the header (z-50) so the hamburger/X toggle and logo
+     remain visible and clickable above the sliding panel while it's open */
+  #mobile-menu{ position:fixed; inset:0; z-index:40; visibility:hidden; }
+  #mobile-menu .backdrop{ position:absolute; inset:0; background:rgba(6,44,91,.45); opacity:0; transition:opacity .25s ease; }
+  #mobile-menu .panel{ position:absolute; top:0; right:0; bottom:0; width:min(88vw, 380px); background:#fff; box-shadow:var(--tw-shadow, 0 20px 60px rgba(6,44,91,.24)); transform:translateX(100%); transition:transform .32s cubic-bezier(.32,.94,.4,1); overflow-y:auto; -webkit-overflow-scrolling:touch; padding-top:var(--header-h); }
+  #mobile-menu.open{ visibility:visible; }
+  #mobile-menu.open .backdrop{ opacity:1; }
+  #mobile-menu.open .panel{ transform:translateX(0); }
+
+  /* autocomplete listbox */
+  .ac-list{ position:absolute; left:0; right:0; top:calc(100% + 6px); background:#fff; border-radius:16px; box-shadow:0 12px 32px rgba(6,44,91,.16); max-height:260px; overflow-y:auto; z-index:40; display:none; border:1px solid rgba(6,44,91,.06); }
+  .ac-list.open{ display:block; }
+  .ac-option{ padding:.65rem 1rem; cursor:pointer; display:flex; align-items:center; gap:.5rem; font-size:.95rem; }
+  .ac-option:hover, .ac-option.active{ background:var(--light); }
+
+  /* language dropdown */
+  .lang-menu{ position:absolute; top:calc(100% + 10px); right:0; background:#fff; border-radius:16px; box-shadow:0 12px 32px rgba(6,44,91,.16); padding:.5rem; min-width:190px; opacity:0; transform:translateY(-6px) scale(.98); pointer-events:none; transition:opacity .18s ease, transform .18s ease; z-index:60; }
+  .lang-menu.open{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  .lang-item{ display:flex; align-items:center; justify-content:space-between; padding:.6rem .75rem; border-radius:10px; cursor:pointer; font-size:.925rem; }
+  .lang-item:hover{ background:var(--light); }
+  .lang-item[aria-selected="true"]{ color:var(--blue); font-weight:600; }
+
+  /* buttons */
+  .btn-primary{ background:linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%); color:#fff; box-shadow:0 10px 24px rgba(10,107,255,.28); transition:transform .18s cubic-bezier(.32,.94,.4,1), box-shadow .18s ease; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 30px rgba(10,107,255,.36); }
+  .btn-primary:active{ transform:translateY(0) scale(.98); }
+
+  .card-hover{ transition:transform .22s cubic-bezier(.32,.94,.4,1), box-shadow .22s ease; }
+  .card-hover:hover{ transform:translateY(-4px); box-shadow:0 16px 40px rgba(6,44,91,.14); }
+
+  /* reveal-on-scroll base state (JS adds .revealed) */
+  .reveal{ opacity:0; transform:translateY(28px); }
+  .reveal.revealed{ opacity:1; transform:translateY(0); transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; } }
+
+  /* hero load-in (CSS keyframes, fires immediately, no JS/GSAP dependency) */
+  @keyframes riseIn{ from{ opacity:0; transform:translateY(20px);} to{ opacity:1; transform:translateY(0);} }
+  .hero-in-1{ animation:riseIn .7s cubic-bezier(.16,1,.3,1) .05s both; }
+  .hero-in-2{ animation:riseIn .7s cubic-bezier(.16,1,.3,1) .16s both; }
+  .hero-in-3{ animation:riseIn .7s cubic-bezier(.16,1,.3,1) .27s both; }
+  .hero-in-4{ animation:riseIn .7s cubic-bezier(.16,1,.3,1) .38s both; }
+
+  /* whatsapp float button: layered green/amber pulse rings, transform+opacity only */
+  .wa-fab{ position:fixed; right:18px; bottom:18px; z-index:70; }
+  .wa-ring{ position:absolute; inset:0; border-radius:9999px; }
+  .wa-ring--a{ background:radial-gradient(circle, rgba(255,196,64,.55), rgba(37,211,102,.35) 70%, transparent 72%); animation:waPulse 2.6s ease-out infinite; }
+  .wa-ring--b{ background:radial-gradient(circle, rgba(255,196,64,.45), rgba(37,211,102,.28) 70%, transparent 72%); animation:waPulse 2.6s ease-out .9s infinite; }
+  @keyframes waPulse{ 0%{ transform:scale(.75); opacity:.9;} 80%{ transform:scale(1.9); opacity:0;} 100%{ transform:scale(1.9); opacity:0;} }
+  .wa-btn{ position:relative; width:60px; height:60px; border-radius:9999px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#25D366 0%, #128C4A 100%); box-shadow:0 14px 34px rgba(18,140,74,.4), 0 4px 10px rgba(0,0,0,.15); animation:waTilt 4.5s ease-in-out infinite; }
+  @keyframes waTilt{ 0%,85%,100%{ transform:rotate(0);} 88%{ transform:rotate(-8deg);} 91%{ transform:rotate(7deg);} 94%{ transform:rotate(-4deg);} 97%{ transform:rotate(0);} }
+  @media (prefers-reduced-motion: reduce){ .wa-ring{ display:none; } .wa-btn{ animation:none; } }
+  .wa-tooltip{ position:absolute; right:calc(100% + 12px); top:50%; transform:translateY(-50%) translateX(6px); background:var(--navy); color:#fff; padding:.5rem .85rem; border-radius:10px; font-size:.85rem; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease; box-shadow:0 8px 20px rgba(6,44,91,.25); }
+  .wa-fab:hover .wa-tooltip, .wa-fab:focus-within .wa-tooltip{ opacity:1; transform:translateY(-50%) translateX(0); }
+
+  /* accordion */
+  .acc-panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s cubic-bezier(.32,.94,.4,1); }
+  .acc-panel > div{ overflow:hidden; }
+  .acc-item[aria-expanded="true"] + .acc-panel{ grid-template-rows:1fr; }
+  .acc-chevron{ transition:transform .25s ease; }
+  .acc-item[aria-expanded="true"] .acc-chevron{ transform:rotate(180deg); }
+
+  /* tabs underline */
+  .tab-btn{ position:relative; }
+  .tab-btn.active{ color:var(--navy); }
+  .tab-btn.active::after{ content:''; position:absolute; left:0; right:0; bottom:-2px; height:3px; border-radius:3px; background:linear-gradient(90deg,var(--blue),var(--cyan)); }
+
+  /* modal */
+  #search-modal{ position:fixed; inset:0; z-index:95; display:none; align-items:center; justify-content:center; padding:1rem; }
+  #search-modal.open{ display:flex; }
+  #search-modal .backdrop{ position:absolute; inset:0; background:rgba(6,44,91,.55); }
+  #search-modal .box{ position:relative; background:#fff; border-radius:24px; max-width:480px; width:100%; box-shadow:0 20px 60px rgba(6,44,91,.3); }
+
+  .store-badge{ display:flex; align-items:center; gap:.65rem; background:var(--ink); color:#fff; padding:.6rem 1.1rem; border-radius:14px; transition:transform .18s ease, background-color .18s ease; }
+  .store-badge:hover{ transform:translateY(-2px); background-color:#152943; }
+
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-thumb{ background:#c7d7ea; border-radius:8px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+</style>
+</head>
+<body class="bg-canvas text-ink">
+
+<a href="#main" class="skip-link" data-i18n="a11y.skip">Мазмұнға өту</a>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header id="site-header" class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur" style="height:var(--header-h);">
+  <div class="max-w-8xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+    <a href="#main" class="flex items-center shrink-0" aria-label="Bileton">
+      <picture>
+        <source srcset="assets/img/logo-full.webp" type="image/webp">
+        <img src="assets/img/logo-full.png" alt="Bileton" class="h-8 md:h-9 w-auto select-none" width="1439" height="561" loading="eager">
+      </picture>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8 font-medium text-[15px]" aria-label="Негізгі навигация">
+      <a href="#how" class="hover:text-brandBlue transition-colors" data-i18n="nav.how">Қалай жұмыс істейді</a>
+      <a href="#routes" class="hover:text-brandBlue transition-colors" data-i18n="nav.routes">Бағыттар</a>
+      <a href="#carriers-cta" class="hover:text-brandBlue transition-colors" data-i18n="nav.carriers">Тасымалдаушыларға</a>
+      <a href="#faq" class="hover:text-brandBlue transition-colors" data-i18n="nav.faq">Сұрақ-жауап</a>
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Phase 2 placeholder: hidden login entry point, kept in DOM for future use -->
+      <button type="button" class="hidden" data-i18n="nav.login" data-phase2-login aria-hidden="true" tabindex="-1">Кіру</button>
+
+      <!-- language switcher -->
+      <div class="relative">
+        <button id="lang-toggle" type="button" class="flex items-center gap-1.5 px-3 py-2 rounded-full border border-brandNavy/15 hover:border-brandBlue/40 transition-colors text-sm font-semibold" aria-haspopup="listbox" aria-expanded="false" aria-label="Тілді таңдау">
+          <i class="ph ph-globe text-base" aria-hidden="true"></i>
+          <span id="lang-current">РУС</span>
+          <i class="ph ph-caret-down text-xs" aria-hidden="true"></i>
+        </button>
+        <ul id="lang-menu" class="lang-menu" role="listbox" aria-label="Тілдер"></ul>
+      </div>
+
+      <a href="#app" class="hidden md:inline-flex btn-primary items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm" data-i18n="nav.download">Қосымшаны жүктеу</a>
+
+      <button id="menu-toggle" type="button" class="lg:hidden flex items-center justify-center w-11 h-11 rounded-full hover:bg-brandLight transition-colors" aria-expanded="false" aria-controls="mobile-menu" aria-label="Мәзірді ашу">
+        <span class="burger-box"><span class="burger-bar"></span><span class="burger-bar"></span><span class="burger-bar"></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MOBILE MENU ============ -->
+<div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Мобильді мәзір">
+  <div class="backdrop" data-close-menu></div>
+  <div class="panel flex flex-col">
+    <nav class="flex flex-col px-6 py-6 gap-1 text-lg font-heading font-semibold" aria-label="Мобильді навигация">
+      <a href="#how" data-close-menu class="py-3 border-b border-brandNavy/8" data-i18n="nav.how">Қалай жұмыс істейді</a>
+      <a href="#routes" data-close-menu class="py-3 border-b border-brandNavy/8" data-i18n="nav.routes">Бағыттар</a>
+      <a href="#carriers-cta" data-close-menu class="py-3 border-b border-brandNavy/8" data-i18n="nav.carriers">Тасымалдаушыларға</a>
+      <a href="#faq" data-close-menu class="py-3 border-b border-brandNavy/8" data-i18n="nav.faq">Сұрақ-жауап</a>
+    </nav>
+    <div class="px-6 mt-2">
+      <a href="#app" data-close-menu class="btn-primary w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-full font-semibold" data-i18n="nav.download">Қосымшаны жүктеу</a>
+    </div>
+    <div class="px-6 mt-8 pb-8">
+      <p class="text-sm text-ink/50 mb-3" data-i18n="mobileMenu.contact">Байланыс</p>
+      <a href="tel:+77471673817" class="flex items-center gap-2 py-2 font-medium"><i class="ph ph-phone text-brandBlue"></i>+7 747 167 3817</a>
+      <a href="https://wa.me/77471673817" target="_blank" rel="noopener" class="flex items-center gap-2 py-2 font-medium"><i class="ph ph-whatsapp-logo text-brandBlue"></i>WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative overflow-hidden bg-brandNavy" style="padding-top:var(--header-h);">
+  <div id="hero-sentinel" aria-hidden="true"></div>
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute -top-24 -right-24 w-[560px] h-[560px] rounded-full opacity-40 blur-3xl" style="background:radial-gradient(circle, var(--cyan), transparent 65%)"></div>
+    <div class="absolute bottom-0 left-1/3 w-[420px] h-[420px] rounded-full opacity-25 blur-3xl" style="background:radial-gradient(circle, var(--blue), transparent 65%)"></div>
+  </div>
+
+  <div class="relative max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-16 pb-10 md:pb-16">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div class="text-white">
+        <h1 class="hero-in-1 font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.08] tracking-tight" data-i18n="hero.h1">Автобус билетін бір орыннан табыңыз</h1>
+        <p class="hero-in-2 mt-5 text-white/80 text-lg leading-relaxed max-w-lg" data-i18n="hero.sub">Қазақстан мен көрші елдер бойынша жүздеген бағыт, сенімді тасымалдаушылар, ыңғайлы уақыт.</p>
+        <div class="hero-in-3 mt-8 flex flex-wrap gap-x-8 gap-y-3">
+          <div><span class="font-heading font-extrabold text-2xl text-white">500+</span> <span class="text-white/70 text-sm" data-i18n="hero.statRoutes">бағыт</span></div>
+          <div><span class="font-heading font-extrabold text-2xl text-white">60+</span> <span class="text-white/70 text-sm" data-i18n="hero.statCities">қала</span></div>
+          <div><span class="font-heading font-extrabold text-2xl text-white">4.8</span> <span class="text-white/70 text-sm" data-i18n="hero.statRating">баға</span></div>
+        </div>
+      </div>
+
+      <div class="hero-in-4 relative hidden lg:block">
+        <div class="absolute -inset-10 rounded-[40px] opacity-70 blur-3xl" style="background:radial-gradient(circle, var(--cyan), transparent 68%);"></div>
+        <picture>
+          <source srcset="assets/img/hero-coastal.webp" type="image/webp">
+          <img src="assets/img/hero-coastal.jpg" alt="Bileton автобусы Қазақстан мен көрші елдер бойынша жол жүреді" width="1200" height="1200" class="relative rounded-3xl shadow-floating w-full aspect-square object-cover ring-1 ring-white/25 ring-inset" style="box-shadow:0 24px 60px rgba(0,0,0,.45), 0 4px 16px rgba(0,0,0,.3);" loading="eager" fetchpriority="high">
+        </picture>
+        <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-floating px-5 py-4 flex items-center gap-3 z-10">
+          <span class="w-11 h-11 rounded-full bg-brandLight flex items-center justify-center"><i class="ph ph-fill ph-star text-brandBlue text-xl"></i></span>
+          <div>
+            <p class="font-heading font-extrabold text-lg leading-none">4.8<span class="text-ink/40 font-medium text-sm">/5</span></p>
+            <p class="text-xs text-ink/55 mt-1" data-i18n="hero.reviewsCount">21 384 баға</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- search card, elevated over the hero -->
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 md:mt-16">
+    <form id="search-form" class="bg-white rounded-3xl shadow-floating p-4 sm:p-6 grid gap-3 sm:gap-4" novalidate>
+      <div class="grid md:grid-cols-[1fr_auto_1fr_auto] gap-3 items-end">
+        <div class="relative">
+          <label for="from-input" class="block text-xs font-semibold text-ink/50 mb-1.5 uppercase tracking-wide" data-i18n="search.from">Қайдан</label>
+          <div class="flex items-center gap-2 border border-brandNavy/12 rounded-2xl px-3.5 py-3 focus-within:border-brandBlue transition-colors">
+            <i class="ph ph-map-pin text-brandBlue text-lg shrink-0" aria-hidden="true"></i>
+            <input id="from-input" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="from-list" class="w-full outline-none text-[15px] bg-transparent" data-i18n-placeholder="search.fromPlaceholder" placeholder="Қала таңдаңыз">
+          </div>
+          <ul id="from-list" class="ac-list" role="listbox"></ul>
+        </div>
+
+        <button type="button" id="swap-btn" class="hidden md:flex w-11 h-11 mb-1 rounded-full border border-brandNavy/12 items-center justify-center hover:bg-brandLight hover:border-brandBlue/30 transition-colors shrink-0" data-i18n-aria="search.swap" aria-label="Орындарын алмастыру">
+          <i class="ph ph-arrows-left-right text-brandBlue"></i>
+        </button>
+
+        <div class="relative">
+          <label for="to-input" class="block text-xs font-semibold text-ink/50 mb-1.5 uppercase tracking-wide" data-i18n="search.to">Қайда</label>
+          <div class="flex items-center gap-2 border border-brandNavy/12 rounded-2xl px-3.5 py-3 focus-within:border-brandBlue transition-colors">
+            <i class="ph ph-map-pin-line text-brandBlue text-lg shrink-0" aria-hidden="true"></i>
+            <input id="to-input" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="to-list" class="w-full outline-none text-[15px] bg-transparent" data-i18n-placeholder="search.toPlaceholder" placeholder="Қала таңдаңыз">
+          </div>
+          <ul id="to-list" class="ac-list" role="listbox"></ul>
+        </div>
+
+        <button type="button" id="swap-btn-mobile" class="md:hidden flex items-center gap-2 text-brandBlue text-sm font-semibold py-1" data-i18n-aria="search.swap" aria-label="Орындарын алмастыру">
+          <i class="ph ph-arrows-left-right"></i> <span data-i18n="search.swap">Орындарын алмастыру</span>
+        </button>
+      </div>
+
+      <div class="grid sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
+        <div>
+          <label for="date-input" class="block text-xs font-semibold text-ink/50 mb-1.5 uppercase tracking-wide" data-i18n="search.date">Кету күні</label>
+          <div class="flex items-center gap-2 border border-brandNavy/12 rounded-2xl px-3.5 py-3 focus-within:border-brandBlue transition-colors">
+            <i class="ph ph-calendar-blank text-brandBlue text-lg shrink-0" aria-hidden="true"></i>
+            <input id="date-input" type="date" class="w-full outline-none text-[15px] bg-transparent">
+          </div>
+        </div>
+
+        <div>
+          <span class="block text-xs font-semibold text-ink/50 mb-1.5 uppercase tracking-wide" data-i18n="search.passengers">Жолаушылар саны</span>
+          <div class="flex items-center justify-between gap-2 border border-brandNavy/12 rounded-2xl px-3.5 py-2">
+            <button type="button" id="pax-minus" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-brandLight transition-colors" data-i18n-aria="search.decrease" aria-label="Азайту"><i class="ph ph-minus"></i></button>
+            <span id="pax-count" class="font-heading font-bold text-lg tabular-nums" aria-live="polite">1</span>
+            <button type="button" id="pax-plus" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-brandLight transition-colors" data-i18n-aria="search.increase" aria-label="Көбейту"><i class="ph ph-plus"></i></button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl font-heading font-bold whitespace-nowrap">
+          <i class="ph ph-magnifying-glass text-lg"></i>
+          <span data-i18n="search.submit">Іздеу</span>
+        </button>
+      </div>
+      <p id="search-error" class="hidden text-sm text-red-600 font-medium" data-i18n="search.error">Қаладан және қалаға бағытты таңдаңыз.</p>
+    </form>
+  </div>
+  <div class="h-14 md:h-20" aria-hidden="true"></div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+  <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+    <div>
+      <h2 class="reveal font-heading font-extrabold text-3xl md:text-4xl tracking-tight" data-i18n="how.title">Қалай жұмыс істейді</h2>
+      <div class="mt-10 grid sm:grid-cols-2 gap-x-8 gap-y-10">
+        <div class="reveal flex gap-4">
+          <span class="shrink-0 w-12 h-12 rounded-2xl bg-brandLight flex items-center justify-center"><i class="ph ph-magnifying-glass text-brandBlue text-2xl"></i></span>
+          <div>
+            <p class="font-heading font-bold text-lg mb-1" data-i18n="how.step1Title">Іздеу</p>
+            <p class="text-ink/65 leading-relaxed" data-i18n="how.step1Text">Қаладан қалаға билетті бірнеше секундта табыңыз.</p>
+          </div>
+        </div>
+        <div class="reveal flex gap-4">
+          <span class="shrink-0 w-12 h-12 rounded-2xl bg-brandLight flex items-center justify-center"><i class="ph ph-armchair text-brandBlue text-2xl"></i></span>
+          <div>
+            <p class="font-heading font-bold text-lg mb-1" data-i18n="how.step2Title">Таңдау</p>
+            <p class="text-ink/65 leading-relaxed" data-i18n="how.step2Text">Орынды, автобусты, уақытты өзіңіз таңдайсыз.</p>
+          </div>
+        </div>
+        <div class="reveal flex gap-4">
+          <span class="shrink-0 w-12 h-12 rounded-2xl bg-brandLight flex items-center justify-center"><i class="ph ph-credit-card text-brandBlue text-2xl"></i></span>
+          <div>
+            <p class="font-heading font-bold text-lg mb-1" data-i18n="how.step3Title">Төлеу</p>
+            <p class="text-ink/65 leading-relaxed" data-i18n="how.step3Text">Kaspi арқылы қауіпсіз төлейсіз.</p>
+          </div>
+        </div>
+        <div class="reveal flex gap-4">
+          <span class="shrink-0 w-12 h-12 rounded-2xl bg-brandLight flex items-center justify-center"><i class="ph ph-qr-code text-brandBlue text-2xl"></i></span>
+          <div>
+            <p class="font-heading font-bold text-lg mb-1" data-i18n="how.step4Title">Жол жүру</p>
+            <p class="text-ink/65 leading-relaxed" data-i18n="how.step4Text">QR-билетпен автовокзалда посадкадан оңай өтесіз.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal relative">
+      <picture>
+        <source srcset="assets/img/plaza-boarding.webp" type="image/webp">
+        <img src="assets/img/plaza-boarding.jpg" alt="Жолаушылар автобусқа отырғызу алаңында" width="736" height="1104" class="rounded-3xl shadow-card w-full object-cover aspect-[3/4]" loading="lazy" decoding="async">
+      </picture>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENEFITS ============ -->
+<section id="benefits" class="bg-brandLight/60 py-16 md:py-24">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="reveal font-heading font-extrabold text-3xl md:text-4xl tracking-tight max-w-xl" data-i18n="benefits.title">Bileton не үшін ыңғайлы</h2>
+    <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="reveal card-hover bg-white rounded-2xl shadow-card p-6">
+        <span class="w-11 h-11 rounded-xl bg-brandLight flex items-center justify-center mb-4"><i class="ph ph-map-trifold text-brandBlue text-xl"></i></span>
+        <p class="font-heading font-bold mb-2" data-i18n="benefits.b1Title">Ауысулы бағыттар</p>
+        <p class="text-ink/65 text-sm leading-relaxed" data-i18n="benefits.b1Text">Тікелей рейс болмаса, аралық қала арқылы жол табамыз.</p>
+      </div>
+      <div class="reveal card-hover bg-brandNavy text-white rounded-2xl shadow-card p-6">
+        <span class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center mb-4"><i class="ph ph-armchair text-brandCyan text-xl"></i></span>
+        <p class="font-heading font-bold mb-2" data-i18n="benefits.b2Title">Нақты орын таңдау</p>
+        <p class="text-white/70 text-sm leading-relaxed" data-i18n="benefits.b2Text">Автобус схемасынан өзіңізге ыңғайлы орынды таңдайсыз.</p>
+      </div>
+      <div class="reveal card-hover bg-white rounded-2xl shadow-card p-6">
+        <span class="w-11 h-11 rounded-xl bg-brandLight flex items-center justify-center mb-4"><i class="ph ph-gift text-brandBlue text-xl"></i></span>
+        <p class="font-heading font-bold mb-2" data-i18n="benefits.b3Title">Рефералдық бонус</p>
+        <p class="text-ink/65 text-sm leading-relaxed" data-i18n="benefits.b3Text">Досыңызды шақырып, 500 теңге бонус аласыз.</p>
+      </div>
+      <div class="reveal card-hover bg-white rounded-2xl shadow-card p-6">
+        <span class="w-11 h-11 rounded-xl bg-brandLight flex items-center justify-center mb-4"><i class="ph ph-fill ph-star text-brandBlue text-xl"></i></span>
+        <p class="font-heading font-bold mb-2" data-i18n="benefits.b4Title">Жолаушы бағалауы</p>
+        <p class="text-ink/65 text-sm leading-relaxed" data-i18n="benefits.b4Text">Нақты жолаушылардың пікірі мен рейтингін көресіз.</p>
+      </div>
+      <div class="reveal card-hover bg-white rounded-2xl shadow-card p-6">
+        <span class="w-11 h-11 rounded-xl bg-brandLight flex items-center justify-center mb-4"><i class="ph ph-arrow-counter-clockwise text-brandBlue text-xl"></i></span>
+        <p class="font-heading font-bold mb-2" data-i18n="benefits.b5Title">Оңай болдыру</p>
+        <p class="text-ink/65 text-sm leading-relaxed" data-i18n="benefits.b5Text">Жоспарыңыз өзгерсе, билетті қайтара аласыз.</p>
+      </div>
+      <div class="reveal card-hover bg-white rounded-2xl shadow-card p-6">
+        <span class="w-11 h-11 rounded-xl bg-brandLight flex items-center justify-center mb-4"><i class="ph ph-hand-coins text-brandBlue text-xl"></i></span>
+        <p class="font-heading font-bold mb-2" data-i18n="benefits.b6Title">Қолма-қол төлем жоқ</p>
+        <p class="text-ink/65 text-sm leading-relaxed" data-i18n="benefits.b6Text">Kaspi арқылы бір рет басып төлейсіз.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS BAND (image break) ============ -->
+<section class="relative py-20 md:py-28">
+  <picture>
+    <source srcset="assets/img/forest-road.webp" type="image/webp">
+    <img src="assets/img/forest-road.jpg" alt="" aria-hidden="true" width="1200" height="1200" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async">
+  </picture>
+  <div class="absolute inset-0 bg-gradient-to-t from-brandNavy via-brandNavy/70 to-brandNavy/40" style="mix-blend-mode:multiply; background-color:#062C5B;" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" aria-hidden="true"></div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">500+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.routes">Бағыт</p></div>
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">60+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.cities">Қала</p></div>
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">1500+</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.trips">Аптасына рейс</p></div>
+    <div class="reveal"><p class="font-heading font-extrabold text-3xl md:text-4xl text-white">4.8</p><p class="text-white/75 text-sm mt-1" data-i18n="stats.rating">Орташа баға</p></div>
+  </div>
+</section>
+
+<!-- ============ POPULAR CITIES / ROUTES ============ -->
+<section id="routes" class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+  <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+    <h2 class="reveal font-heading font-extrabold text-3xl md:text-4xl tracking-tight" data-i18n="routes.title">Танымал бағыттар</h2>
+    <div class="reveal flex gap-6 border-b border-brandNavy/10">
+      <button type="button" class="tab-btn active pb-3 font-semibold" data-tab="cities" data-i18n="routes.tabCities">Қалалар</button>
+      <button type="button" class="tab-btn pb-3 font-semibold text-ink/50" data-tab="routes" data-i18n="routes.tabRoutes">Бағыттар</button>
+    </div>
+  </div>
+  <div id="cities-grid" class="reveal grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+  <div id="routes-grid" class="reveal hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+</section>
+
+<!-- ============ PARTNERS ============ -->
+<section class="py-14 border-t border-b border-brandNavy/8">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="reveal text-center text-sm font-semibold text-ink/45 uppercase tracking-wide mb-8" data-i18n="partners.title">Серіктестеріміз</p>
+    <div id="partners-row" class="reveal flex flex-wrap items-center justify-center gap-x-12 gap-y-6"></div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="relative py-20 md:py-28">
+  <picture>
+    <source srcset="assets/img/vineyard-golden.webp" type="image/webp">
+    <img src="assets/img/vineyard-golden.jpg" alt="" aria-hidden="true" width="1024" height="1024" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async">
+  </picture>
+  <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(6,44,91,.88), rgba(6,44,91,.72));" aria-hidden="true"></div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal text-center mb-12">
+      <h2 class="font-heading font-extrabold text-3xl md:text-4xl text-white tracking-tight" data-i18n="reviews.title">Жолаушы пікірлері</h2>
+      <p class="mt-3 text-white/80 font-medium" data-i18n="reviews.ratingLine">5-тен 4.8 (21 384 баға)</p>
+    </div>
+    <div id="reviews-grid" class="grid md:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+<!-- ============ APP DOWNLOAD ============ -->
+<section id="app" class="relative bg-brandNavy overflow-hidden">
+  <picture>
+    <source srcset="assets/img/night-navy-bus.webp" type="image/webp">
+    <img src="assets/img/night-navy-bus.jpg" alt="" aria-hidden="true" width="506" height="900" class="absolute right-0 top-0 h-full object-cover opacity-30 lg:opacity-100" style="width:44%;" loading="lazy" decoding="async">
+  </picture>
+  <div class="absolute inset-0 bg-gradient-to-r from-brandNavy via-brandNavy/95 to-transparent" aria-hidden="true"></div>
+  <div class="relative max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid lg:grid-cols-2 gap-10 items-center">
+    <div class="text-white">
+      <h2 class="reveal font-heading font-extrabold text-3xl md:text-4xl tracking-tight" data-i18n="app.title">Bileton қосымшасын жүктеңіз</h2>
+      <p class="reveal mt-4 text-white/75 max-w-md leading-relaxed" data-i18n="app.text">Билетті бір басумен алыңыз, билеттеріңіз әрқашан қалтаңызда.</p>
+
+      <div class="reveal mt-8 flex flex-wrap gap-4">
+        <a href="#" class="store-badge">
+          <img src="https://cdn.simpleicons.org/apple/ffffff" alt="" class="w-6 h-6" aria-hidden="true">
+          <span class="text-left leading-tight">
+            <span class="block text-[11px] text-white/70" data-i18n="app.downloadOn">Жүктеп алу</span>
+            <span class="block text-sm font-semibold">App Store</span>
+          </span>
+        </a>
+        <a href="#" class="store-badge">
+          <img src="https://cdn.simpleicons.org/googleplay/ffffff" alt="" class="w-5 h-5" aria-hidden="true">
+          <span class="text-left leading-tight">
+            <span class="block text-[11px] text-white/70" data-i18n="app.downloadOn">Жүктеп алу</span>
+            <span class="block text-sm font-semibold">Google Play</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="reveal mt-8 flex flex-wrap items-center gap-6">
+        <div class="bg-white p-2.5 rounded-2xl shadow-card">
+          <img src="https://placehold.co/128x128/062C5B/FFFFFF?text=QR" alt="App Store QR" width="112" height="112" class="rounded-lg" loading="lazy">
+        </div>
+        <div class="bg-white p-2.5 rounded-2xl shadow-card">
+          <img src="https://placehold.co/128x128/0A6BFF/FFFFFF?text=QR" alt="Google Play QR" width="112" height="112" class="rounded-lg" loading="lazy">
+        </div>
+        <p class="text-white/60 text-sm max-w-[9rem]" data-i18n="app.qrCaption">Телефон камерасымен сканерлеңіз</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARRIERS CTA ============ -->
+<section id="carriers-cta" class="relative py-20 md:py-24">
+  <picture>
+    <source srcset="assets/img/dusk-coach.webp" type="image/webp">
+    <img src="assets/img/dusk-coach.jpg" alt="" aria-hidden="true" width="440" height="440" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async">
+  </picture>
+  <div class="absolute inset-0" style="background:linear-gradient(120deg, rgba(6,44,91,.95), rgba(6,44,91,.8));" aria-hidden="true"></div>
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+    <h2 class="reveal font-heading font-extrabold text-3xl md:text-4xl tracking-tight" data-i18n="carriers.title">Автобус паркіңізді цифрландырыңыз</h2>
+    <p class="reveal mt-4 text-white/75 max-w-xl mx-auto leading-relaxed" data-i18n="carriers.text">Онлайн сату, бірыңғай есеп, тек 3% комиссия.</p>
+    <a href="#footer-contact" class="reveal btn-primary inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full font-heading font-bold">
+      <span data-i18n="carriers.cta">Толығырақ</span> <i class="ph ph-arrow-right"></i>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+  <h2 class="reveal font-heading font-extrabold text-3xl md:text-4xl tracking-tight text-center" data-i18n="faq.title">Сұрақ-жауап</h2>
+  <div id="faq-list" class="reveal mt-10 divide-y divide-brandNavy/10 border-y border-brandNavy/10"></div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="footer-contact" class="bg-brandNavy text-white pt-16 pb-8">
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div>
+      <div class="inline-block bg-white rounded-xl p-2.5">
+        <picture>
+          <source srcset="assets/img/logo-full.webp" type="image/webp">
+          <img src="assets/img/logo-full.png" alt="Bileton" class="h-8 w-auto" width="1439" height="561" loading="lazy">
+        </picture>
+      </div>
+      <p class="mt-4 text-white/60 text-sm leading-relaxed max-w-xs" data-i18n="footer.about">Bileton - Қазақстан мен көрші елдер бойынша автобус билеттерін онлайн сату платформасы.</p>
+      <div class="flex gap-3 mt-5">
+        <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"><i class="ph ph-instagram-logo"></i></a>
+        <a href="#" aria-label="Telegram" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"><i class="ph ph-telegram-logo"></i></a>
+        <a href="https://wa.me/77471673817" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"><i class="ph ph-whatsapp-logo"></i></a>
+      </div>
+    </div>
+
+    <div>
+      <p class="font-heading font-bold mb-4" data-i18n="footer.colPassenger">Жолаушыға</p>
+      <ul class="space-y-2.5 text-white/65 text-sm">
+        <li><a href="#how" class="hover:text-white transition-colors" data-i18n="nav.how">Қалай жұмыс істейді</a></li>
+        <li><a href="#routes" class="hover:text-white transition-colors" data-i18n="nav.routes">Бағыттар</a></li>
+        <li><a href="#faq" class="hover:text-white transition-colors" data-i18n="nav.faq">Сұрақ-жауап</a></li>
+        <li><a href="#app" class="hover:text-white transition-colors" data-i18n="nav.download">Қосымшаны жүктеу</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="font-heading font-bold mb-4" data-i18n="footer.colPartner">Серіктестерге</p>
+      <ul class="space-y-2.5 text-white/65 text-sm">
+        <li><a href="#carriers-cta" class="hover:text-white transition-colors" data-i18n="nav.carriers">Тасымалдаушыларға</a></li>
+        <li><a href="#carriers-cta" class="hover:text-white transition-colors" data-i18n="footer.stations">Автовокзалдарға</a></li>
+        <li><a href="https://carrier.bileton.kz" class="hover:text-white transition-colors" data-i18n="footer.carrierPortal">Тасымалдаушы кабинеті</a></li>
+        <li><a href="https://station.bileton.kz" class="hover:text-white transition-colors" data-i18n="footer.stationPortal">Автовокзал кабинеті</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="font-heading font-bold mb-4" data-i18n="footer.colCompany">Компания</p>
+      <ul class="space-y-2.5 text-white/65 text-sm">
+        <li><a href="#" class="hover:text-white transition-colors" data-i18n="footer.about2">Біз туралы</a></li>
+        <li><a href="#footer-contact" class="hover:text-white transition-colors" data-i18n="footer.contacts">Байланыс</a></li>
+        <li><a href="#" class="hover:text-white transition-colors" data-i18n="footer.terms">Пайдалану шарттары</a></li>
+        <li><a href="#" class="hover:text-white transition-colors" data-i18n="footer.privacy">Құпиялылық саясаты</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-3 justify-between items-center text-white/50 text-xs text-center sm:text-left">
+    <p data-i18n="footer.legal">ТОО «Biletal.KZ», БИН 191 040 022 387</p>
+    <div class="flex flex-wrap justify-center gap-x-5 gap-y-1">
+      <a href="tel:+77471673817" class="hover:text-white transition-colors">+7 747 167 3817</a>
+      <a href="mailto:info@bileton.kz" class="hover:text-white transition-colors">info@bileton.kz</a>
+    </div>
+    <p><span id="copyright-year">2026</span> Bileton. <span data-i18n="footer.rights">Барлық құқық қорғалған</span>.</p>
+  </div>
+</footer>
+
+<!-- ============ WHATSAPP FLOATING BUTTON ============ -->
+<div class="wa-fab">
+  <span class="wa-ring wa-ring--a" aria-hidden="true"></span>
+  <span class="wa-ring wa-ring--b" aria-hidden="true"></span>
+  <a href="https://wa.me/77471673817" target="_blank" rel="noopener" class="wa-btn" data-i18n-aria="whatsapp.label" aria-label="WhatsApp арқылы жазыңыз">
+    <i class="ph ph-fill ph-whatsapp-logo text-white text-3xl"></i>
+  </a>
+  <span class="wa-tooltip" data-i18n="whatsapp.label" role="tooltip">WhatsApp арқылы жазыңыз</span>
+</div>
+
+<!-- ============ SEARCH MODAL (phase 1: routes to app store) ============ -->
+<div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="backdrop" data-close-modal></div>
+  <div class="box p-7">
+    <button type="button" data-close-modal class="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center hover:bg-brandLight transition-colors" data-i18n-aria="a11y.close" aria-label="Жабу"><i class="ph ph-x text-lg"></i></button>
+    <span class="w-14 h-14 rounded-2xl bg-brandLight flex items-center justify-center mb-5"><i class="ph ph-device-mobile-speaker text-brandBlue text-3xl"></i></span>
+    <h3 id="modal-title" class="font-heading font-extrabold text-xl mb-1" id="modal-route">Алматы → Шымкент</h3>
+    <p id="modal-date" class="text-ink/50 text-sm mb-4"></p>
+    <p class="text-ink/70 leading-relaxed mb-6" data-i18n="modal.text">Осы рейске билет сатып алу үшін Bileton қосымшасын ашыңыз. Бағыт пен күн сақталды.</p>
+    <div class="flex flex-wrap gap-3">
+      <a href="#" class="store-badge">
+        <img src="https://cdn.simpleicons.org/apple/ffffff" alt="" class="w-6 h-6" aria-hidden="true">
+        <span class="text-left leading-tight"><span class="block text-[11px] text-white/70" data-i18n="app.downloadOn">Жүктеп алу</span><span class="block text-sm font-semibold">App Store</span></span>
+      </a>
+      <a href="#" class="store-badge">
+        <img src="https://cdn.simpleicons.org/googleplay/ffffff" alt="" class="w-5 h-5" aria-hidden="true">
+        <span class="text-left leading-tight"><span class="block text-[11px] text-white/70" data-i18n="app.downloadOn">Жүктеп алу</span><span class="block text-sm font-semibold">Google Play</span></span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   TRANSLATIONS
+   ===================================================================== */
+const LANGS = [
+  { code:'ru', native:'Русский', short:'РУС' },
+  { code:'kk', native:'Қазақша', short:'ҚАЗ' },
+  { code:'uz', native:"O'zbekcha", short:'UZB' },
+  { code:'ky', native:'Кыргызча', short:'КЫР' },
+  { code:'zh', native:'中文', short:'中文' },
+  { code:'en', native:'English', short:'ENG' },
+];
+
+const T = {
+ru:{
+  meta:{ title:"Bileton — автобус билеттерін онлайн сатып алу", description:"Bileton — Қазақстан мен көрші елдер бойынша автобус билеттерін іздеу платформасы." },
+  a11y:{ skip:"Перейти к содержимому", close:"Закрыть" },
+  nav:{ how:"Как это работает", routes:"Направления", carriers:"Перевозчикам", faq:"Вопросы", download:"Скачать приложение", login:"Войти" },
+  mobileMenu:{ contact:"Связаться с нами" },
+  hero:{ h1:"Найдите билет на автобус в одном месте", sub:"Сотни направлений по Казахстану и соседним странам, надёжные перевозчики, удобное время в пути.", statRoutes:"направлений", statCities:"городов", statRating:"оценка", reviewsCount:"21 384 оценки" },
+  search:{ from:"Откуда", to:"Куда", fromPlaceholder:"Выберите город", toPlaceholder:"Выберите город", date:"Дата отправления", passengers:"Пассажиры", decrease:"Уменьшить", increase:"Увеличить", submit:"Искать билеты", swap:"Поменять местами", error:"Укажите город отправления и назначения." },
+  how:{ title:"Как это работает", step1Title:"Поиск", step1Text:"Найдите билет из города в город за несколько секунд.", step2Title:"Выбор", step2Text:"Сами выбираете место, автобус и время.", step3Title:"Оплата", step3Text:"Оплачивайте безопасно через Kaspi.", step4Title:"В пути", step4Text:"Проходите посадку на автовокзале по QR-билету." },
+  benefits:{ title:"Почему пассажиры выбирают Bileton", b1Title:"Маршруты с пересадкой", b1Text:"Если нет прямого рейса, мы найдём путь через ближайший город.", b2Title:"Точный выбор места", b2Text:"Выбирайте удобное место прямо на схеме автобуса.", b3Title:"Реферальный бонус", b3Text:"Пригласите друга и получите бонус 500 тенге.", b4Title:"Оценки пассажиров", b4Text:"Смотрите реальные отзывы и рейтинг перевозчика.", b5Title:"Лёгкий возврат", b5Text:"Планы изменились, легко вернёте билет в приложении.", b6Title:"Без наличных", b6Text:"Оплата в один клик через Kaspi." },
+  stats:{ routes:"Направлений", cities:"Городов", trips:"Рейсов в неделю", rating:"Средняя оценка" },
+  routes:{ title:"Популярные направления", tabCities:"Города", tabRoutes:"Маршруты", fromPrefix:"от" },
+  partners:{ title:"Наши партнёры" },
+  reviews:{ title:"Отзывы пассажиров", ratingLine:"4.8 из 5 (21 384 оценки)",
+    r1:{ name:"Айгерим Нурланкызы", city:"Алматы", text:"Купила билет за две минуты, места на схеме выбрала сама. Автобус пришёл вовремя." },
+    r2:{ name:"Дмитрий Волков", city:"Астана", text:"Ехал через пересадку, всё прошло гладко. QR-билет считали за секунду на вокзале." },
+    r3:{ name:"Асель Жаксыбекова", city:"Шымкент", text:"Планы поменялись в последний момент, вернула билет прямо в приложении без звонков." } },
+  app:{ title:"Скачайте приложение Bileton", text:"Покупайте билет в одно касание, а сам билет всегда под рукой.", downloadOn:"Скачать в", qrCaption:"Отсканируйте камерой телефона" },
+  carriers:{ title:"Переведите автопарк в цифру", text:"Онлайн-продажи, единый учёт, комиссия всего 3%.", cta:"Подробнее" },
+  faq:{ title:"Вопросы и ответы",
+    q1:{ q:"Как купить билет на автобус?", a:"Введите города отправления и назначения, дату и число пассажиров, затем завершите покупку в приложении Bileton." },
+    q2:{ q:"Можно ли вернуть билет?", a:"Да, билет можно вернуть в приложении до отправления рейса согласно правилам перевозчика." },
+    q3:{ q:"Какие способы оплаты доступны?", a:"Оплата проходит через Kaspi, безопасно и в один клик." },
+    q4:{ q:"Что делать, если нет прямого рейса?", a:"Bileton подберёт маршрут с пересадкой через ближайший город." },
+    q5:{ q:"Как получить бонус за приглашение друга?", a:"Отправьте другу свой реферальный код в приложении, оба получите бонус 500 тенге." } },
+  footer:{ colPassenger:"Пассажирам", colPartner:"Партнёрам", colCompany:"Компания", stations:"Автовокзалам", carrierPortal:"Кабинет перевозчика", stationPortal:"Кабинет автовокзала", about:"Bileton - платформа онлайн-продажи автобусных билетов по Казахстану и соседним странам.", about2:"О нас", contacts:"Контакты", terms:"Условия использования", privacy:"Политика конфиденциальности", legal:"ТОО «Biletal.KZ», БИН 191 040 022 387", rights:"Все права защищены" },
+  whatsapp:{ label:"Написать в WhatsApp" },
+  modal:{ text:"Чтобы купить билет на этот рейс, откройте приложение Bileton. Маршрут и дата уже сохранены.", noDate:"Дата не выбрана" },
+},
+kk:{
+  meta:{ title:"Bileton — автобус билеттерін онлайн сатып алу", description:"Bileton — Қазақстан мен көрші елдер бойынша автобус билеттерін іздеу платформасы." },
+  a11y:{ skip:"Мазмұнға өту", close:"Жабу" },
+  nav:{ how:"Қалай жұмыс істейді", routes:"Бағыттар", carriers:"Тасымалдаушыларға", faq:"Сұрақ-жауап", download:"Қосымшаны жүктеу", login:"Кіру" },
+  mobileMenu:{ contact:"Байланыс" },
+  hero:{ h1:"Автобус билетін бір орыннан табыңыз", sub:"Қазақстан мен көрші елдер бойынша жүздеген бағыт, сенімді тасымалдаушылар, ыңғайлы уақыт.", statRoutes:"бағыт", statCities:"қала", statRating:"баға", reviewsCount:"21 384 баға" },
+  search:{ from:"Қайдан", to:"Қайда", fromPlaceholder:"Қала таңдаңыз", toPlaceholder:"Қала таңдаңыз", date:"Кету күні", passengers:"Жолаушылар саны", decrease:"Азайту", increase:"Көбейту", submit:"Билет іздеу", swap:"Орындарын алмастыру", error:"Қайдан және қайда бағытын таңдаңыз." },
+  how:{ title:"Қалай жұмыс істейді", step1Title:"Іздеу", step1Text:"Қаладан қалаға билетті бірнеше секундта табыңыз.", step2Title:"Таңдау", step2Text:"Орынды, автобусты, уақытты өзіңіз таңдайсыз.", step3Title:"Төлеу", step3Text:"Kaspi арқылы қауіпсіз төлейсіз.", step4Title:"Жол жүру", step4Text:"QR-билетпен автовокзалда посадкадан оңай өтесіз." },
+  benefits:{ title:"Bileton не үшін ыңғайлы", b1Title:"Ауысулы бағыттар", b1Text:"Тікелей рейс болмаса, аралық қала арқылы жол табамыз.", b2Title:"Нақты орын таңдау", b2Text:"Автобус схемасынан өзіңізге ыңғайлы орынды таңдайсыз.", b3Title:"Рефералдық бонус", b3Text:"Досыңызды шақырып, 500 теңге бонус аласыз.", b4Title:"Жолаушы бағалауы", b4Text:"Нақты жолаушылардың пікірі мен рейтингін көресіз.", b5Title:"Оңай болдыру", b5Text:"Жоспарыңыз өзгерсе, билетті қайтара аласыз.", b6Title:"Қолма-қол төлем жоқ", b6Text:"Kaspi арқылы бір рет басып төлейсіз." },
+  stats:{ routes:"Бағыт", cities:"Қала", trips:"Аптасына рейс", rating:"Орташа баға" },
+  routes:{ title:"Танымал бағыттар", tabCities:"Қалалар", tabRoutes:"Бағыттар", fromPrefix:"" },
+  partners:{ title:"Серіктестеріміз" },
+  reviews:{ title:"Жолаушы пікірлері", ratingLine:"5-тен 4.8 (21 384 баға)",
+    r1:{ name:"Айгерім Нұрланқызы", city:"Алматы", text:"Билетті екі минутта алдым, орынды өзім таңдадым. Автобус уақытында келді." },
+    r2:{ name:"Дмитрий Волков", city:"Астана", text:"Ауысу арқылы жүрдім, бәрі оңай болды. Вокзалда QR-билетті бір секундта оқыды." },
+    r3:{ name:"Әсел Жақсыбекова", city:"Шымкент", text:"Соңғы сәтте жоспарым өзгерді, билетті қосымшадан қоңырау соқпай-ақ қайтардым." } },
+  app:{ title:"Bileton қосымшасын жүктеңіз", text:"Билетті бір басумен алыңыз, билеттеріңіз әрқашан қалтаңызда.", downloadOn:"Жүктеу", qrCaption:"Телефон камерасымен сканерлеңіз" },
+  carriers:{ title:"Автобус паркіңізді цифрландырыңыз", text:"Онлайн сату, бірыңғай есеп, тек 3% комиссия.", cta:"Толығырақ" },
+  faq:{ title:"Жиі қойылатын сұрақтар",
+    q1:{ q:"Автобус билетін қалай сатып аламын?", a:"Қайдан және қайда бағытын, күнін, жолаушы санын енгізіп, Bileton қосымшасында сатып алуды аяқтаңыз." },
+    q2:{ q:"Билетті қайтаруға бола ма?", a:"Иә, рейс шықпай тұрып қосымшадан тасымалдаушы ережесіне сай билетті қайтара аласыз." },
+    q3:{ q:"Қандай төлем тәсілдері бар?", a:"Төлем Kaspi арқылы, қауіпсіз әрі бір басуда өтеді." },
+    q4:{ q:"Тікелей рейс болмаса не істеймін?", a:"Bileton жақын қала арқылы ауысулы бағыт ұсынады." },
+    q5:{ q:"Досты шақырғаны үшін бонусты қалай аламын?", a:"Қосымшадағы реферал кодыңызды досыңызға жіберіңіз, екеуің де 500 теңге бонус аласыздар." } },
+  footer:{ colPassenger:"Жолаушыға", colPartner:"Серіктестерге", colCompany:"Компания", stations:"Автовокзалдарға", carrierPortal:"Тасымалдаушы кабинеті", stationPortal:"Автовокзал кабинеті", about:"Bileton - Қазақстан мен көрші елдер бойынша автобус билеттерін онлайн сату платформасы.", about2:"Біз туралы", contacts:"Байланыс", terms:"Пайдалану шарттары", privacy:"Құпиялылық саясаты", legal:"«Biletal.KZ» ЖШС, БСН 191 040 022 387", rights:"Барлық құқық қорғалған" },
+  whatsapp:{ label:"WhatsApp арқылы жазыңыз" },
+  modal:{ text:"Осы рейске билет сатып алу үшін Bileton қосымшасын ашыңыз. Бағыт пен күн сақталды.", noDate:"Күн таңдалмады" },
+},
+uz:{
+  meta:{ title:"Bileton — avtobus chiptalarini onlayn sotib olish", description:"Bileton — Qozog'iston va qo'shni davlatlar bo'ylab avtobus chiptalarini qidirish platformasi." },
+  a11y:{ skip:"Mazmunga o'tish", close:"Yopish" },
+  nav:{ how:"Bu qanday ishlaydi", routes:"Yo'nalishlar", carriers:"Tashuvchilarga", faq:"Savollar", download:"Ilovani yuklab olish", login:"Kirish" },
+  mobileMenu:{ contact:"Biz bilan bog'lanish" },
+  hero:{ h1:"Avtobus chiptangizni bir joydan toping", sub:"Qozog'iston va qo'shni davlatlar bo'ylab yuzlab yo'nalish, ishonchli tashuvchilar, qulay vaqt.", statRoutes:"yo'nalish", statCities:"shahar", statRating:"baho", reviewsCount:"21 384 baho" },
+  search:{ from:"Qayerdan", to:"Qayerga", fromPlaceholder:"Shaharni tanlang", toPlaceholder:"Shaharni tanlang", date:"Jo'nash sanasi", passengers:"Yo'lovchilar soni", decrease:"Kamaytirish", increase:"Ko'paytirish", submit:"Chipta qidirish", swap:"O'rinlarini almashtirish", error:"Jo'nash va yetib borish shaharlarini tanlang." },
+  how:{ title:"Bu qanday ishlaydi", step1Title:"Qidiruv", step1Text:"Shahardan shaharga chiptani bir necha soniyada toping.", step2Title:"Tanlash", step2Text:"O'rindiq, avtobus va vaqtni o'zingiz tanlaysiz.", step3Title:"To'lov", step3Text:"Kaspi orqali xavfsiz to'lov qilasiz.", step4Title:"Yo'lda", step4Text:"QR-chipta bilan avtovokzalda chiqishdan oson o'tasiz." },
+  benefits:{ title:"Nega yo'lovchilar Bileton-ni tanlaydi", b1Title:"Almashinuvli yo'nalishlar", b1Text:"To'g'ridan-to'g'ri reys bo'lmasa, yaqin shahar orqali yo'l topamiz.", b2Title:"Aniq o'rindiq tanlash", b2Text:"Avtobus sxemasidan o'zingizga qulay o'rindiqni tanlaysiz.", b3Title:"Referal bonusi", b3Text:"Do'stingizni taklif qiling va 500 tenge bonus oling.", b4Title:"Yo'lovchi baholari", b4Text:"Haqiqiy yo'lovchilarning fikri va reytingini ko'rasiz.", b5Title:"Oson bekor qilish", b5Text:"Rejangiz o'zgarsa, chiptani ilova orqali osongina qaytarasiz.", b6Title:"Naqd pulsiz to'lov", b6Text:"Kaspi orqali bir bosishda to'lov qilasiz." },
+  stats:{ routes:"Yo'nalish", cities:"Shahar", trips:"Haftalik reys", rating:"O'rtacha baho" },
+  routes:{ title:"Ommabop yo'nalishlar", tabCities:"Shaharlar", tabRoutes:"Yo'nalishlar", fromPrefix:"" },
+  partners:{ title:"Hamkorlarimiz" },
+  reviews:{ title:"Yo'lovchilar fikri", ratingLine:"5 balldan 4.8 (21 384 baho)",
+    r1:{ name:"Aygerim Nurlanqizi", city:"Almati", text:"Chiptani ikki daqiqada oldim, o'rindiqni o'zim tanladim. Avtobus vaqtida keldi." },
+    r2:{ name:"Dmitriy Volkov", city:"Astana", text:"Almashinuv orqali bordim, hammasi oson bo'ldi. Vokzalda QR-chiptani bir soniyada o'qishdi." },
+    r3:{ name:"Asel Jaqsibekova", city:"Shimkent", text:"Rejam oxirgi paytda o'zgardi, chiptani ilova orqali qo'ng'iroqsiz qaytardim." } },
+  app:{ title:"Bileton ilovasini yuklab oling", text:"Chiptani bir bosish bilan oling, chiptalaringiz doim cho'ntagingizda.", downloadOn:"Yuklab olish", qrCaption:"Telefon kamerasi bilan skanerlang" },
+  carriers:{ title:"Avtoparkingizni raqamlashtiring", text:"Onlayn savdo, yagona hisob, atigi 3% komissiya.", cta:"Batafsil" },
+  faq:{ title:"Savollar va javoblar",
+    q1:{ q:"Avtobus chiptasini qanday sotib olaman?", a:"Jo'nash va yetib borish shaharlarini, sanani, yo'lovchilar sonini kiriting va Bileton ilovasida xaridni yakunlang." },
+    q2:{ q:"Chiptani qaytarish mumkinmi?", a:"Ha, reys jo'nab ketmasdan oldin ilova orqali tashuvchi qoidalariga muvofiq chiptani qaytarish mumkin." },
+    q3:{ q:"Qanday to'lov usullari mavjud?", a:"To'lov Kaspi orqali, xavfsiz va bir bosishda amalga oshadi." },
+    q4:{ q:"To'g'ridan-to'g'ri reys bo'lmasa nima qilaman?", a:"Bileton yaqin shahar orqali almashinuvli yo'nalish taklif qiladi." },
+    q5:{ q:"Do'stni taklif qilgani uchun bonusni qanday olaman?", a:"Ilovadagi referal kodingizni do'stingizga yuboring, ikkalangiz ham 500 tenge bonus olasiz." } },
+  footer:{ colPassenger:"Yo'lovchilarga", colPartner:"Hamkorlarga", colCompany:"Kompaniya", stations:"Avtovokzallarga", carrierPortal:"Tashuvchi kabineti", stationPortal:"Avtovokzal kabineti", about:"Bileton - Qozog'iston va qo'shni davlatlar bo'ylab avtobus chiptalarini onlayn sotish platformasi.", about2:"Biz haqimizda", contacts:"Aloqa", terms:"Foydalanish shartlari", privacy:"Maxfiylik siyosati", legal:"«Biletal.KZ» MChJ, BIN 191 040 022 387", rights:"Barcha huquqlar himoyalangan" },
+  whatsapp:{ label:"WhatsApp orqali yozing" },
+  modal:{ text:"Ushbu reysga chipta sotib olish uchun Bileton ilovasini oching. Yo'nalish va sana saqlab qo'yildi.", noDate:"Sana tanlanmadi" },
+},
+ky:{
+  meta:{ title:"Bileton — автобус билеттерин онлайн сатып алуу", description:"Bileton — Казакстан жана коңшу өлкөлөр боюнча автобус билеттерин издөө платформасы." },
+  a11y:{ skip:"Мазмунга өтүү", close:"Жабуу" },
+  nav:{ how:"Бул кантип иштейт", routes:"Багыттар", carriers:"Ташуучуларга", faq:"Суроо-жооп", download:"Тиркемени жүктөө", login:"Кирүү" },
+  mobileMenu:{ contact:"Байланыш" },
+  hero:{ h1:"Автобус билетиңизди бир жерден табыңыз", sub:"Казакстан жана коңшу өлкөлөр боюнча жүздөгөн багыт, ишенимдүү ташуучулар, ыңгайлуу убакыт.", statRoutes:"багыт", statCities:"шаар", statRating:"баа", reviewsCount:"21 384 баа" },
+  search:{ from:"Кайдан", to:"Кайда", fromPlaceholder:"Шаарды тандаңыз", toPlaceholder:"Шаарды тандаңыз", date:"Чыгуу күнү", passengers:"Жолоочулар саны", decrease:"Азайтуу", increase:"Көбөйтүү", submit:"Билет издөө", swap:"Орундарын алмаштыруу", error:"Кайдан жана кайда багытын тандаңыз." },
+  how:{ title:"Бул кантип иштейт", step1Title:"Издөө", step1Text:"Шаардан шаарга билетти бир нече секундда табыңыз.", step2Title:"Тандоо", step2Text:"Орунду, автобусту, убакытты өзүңүз тандайсыз.", step3Title:"Төлөм", step3Text:"Kaspi аркылуу коопсуз төлөйсүз.", step4Title:"Жолдо", step4Text:"QR-билет менен автобекетте отургузуудан оңой өтөсүз." },
+  benefits:{ title:"Эмне үчүн жолоочулар Bileton-ду тандайт", b1Title:"Которуп өтүүчү багыттар", b1Text:"Түз рейс болбосо, жакынкы шаар аркылуу жол табабыз.", b2Title:"Так орун тандоо", b2Text:"Автобус схемасынан өзүңүзгө ыңгайлуу орунду тандайсыз.", b3Title:"Дос чакыруу бонусу", b3Text:"Досуңузду чакырып, 500 теңге бонус аласыз.", b4Title:"Жолоочу баалары", b4Text:"Реалдуу жолоочулардын пикирин жана рейтингин көрөсүз.", b5Title:"Оңой жокко чыгаруу", b5Text:"Пландарыңыз өзгөрсө, билетти тиркемеден оңой кайтара аласыз.", b6Title:"Накталай төлөм жок", b6Text:"Kaspi аркылуу бир басуу менен төлөйсүз." },
+  stats:{ routes:"Багыт", cities:"Шаар", trips:"Жумасына рейс", rating:"Орточо баа" },
+  routes:{ title:"Популярдуу багыттар", tabCities:"Шаарлар", tabRoutes:"Багыттар", fromPrefix:"" },
+  partners:{ title:"Өнөктөштөрүбүз" },
+  reviews:{ title:"Жолоочулардын пикирлери", ratingLine:"5тен 4.8 (21 384 баа)",
+    r1:{ name:"Айгерим Нурланкызы", city:"Алматы", text:"Билетти эки мүнөттө алдым, орунду өзүм тандадым. Автобус убагында келди." },
+    r2:{ name:"Дмитрий Волков", city:"Астана", text:"Которуп жүрдүм, баары оңой болду. Бекетте QR-билетти бир секундда окушту." },
+    r3:{ name:"Асел Жаксыбекова", city:"Шымкент", text:"Пландарым акыркы учурда өзгөрдү, билетти тиркемеден чалуусуз кайтардым." } },
+  app:{ title:"Bileton тиркемесин жүктөп алыңыз", text:"Билетти бир басуу менен алыңыз, билеттериңиз ар дайым чөнтөгүңүздө.", downloadOn:"Жүктөө", qrCaption:"Телефон камерасы менен сканерлеңиз" },
+  carriers:{ title:"Автопарктыңызды санарипке айландырыңыз", text:"Онлайн сатуу, бирдиктүү эсеп, болгону 3% комиссия.", cta:"Толугураак" },
+  faq:{ title:"Суроо-жооп",
+    q1:{ q:"Автобус билетин кантип сатып алам?", a:"Чыгуу жана баруучу шаарды, күндү, жолоочулар санын киргизип, Bileton тиркемесинде сатып алууну аяктаңыз." },
+    q2:{ q:"Билетти кайтарууга болобу?", a:"Ооба, рейс чыкканга чейин тиркемеден ташуучунун эрежесине ылайык билетти кайтарууга болот." },
+    q3:{ q:"Кандай төлөм ыкмалары бар?", a:"Төлөм Kaspi аркылуу, коопсуз жана бир басуу менен өтөт." },
+    q4:{ q:"Түз рейс болбосо эмне кылам?", a:"Bileton жакынкы шаар аркылуу которуп өтүүчү багыт сунуштайт." },
+    q5:{ q:"Дос чакыргандыгы үчүн бонусту кантип алам?", a:"Тиркемедеги референдук кодуңузду досуңузга жөнөтүңүз, экөөңүз тең 500 теңге бонус аласыздар." } },
+  footer:{ colPassenger:"Жолоочуларга", colPartner:"Өнөктөштөргө", colCompany:"Компания", stations:"Автобекеттерге", carrierPortal:"Ташуучу кабинети", stationPortal:"Автобекет кабинети", about:"Bileton - Казакстан жана коңшу өлкөлөр боюнча автобус билеттерин онлайн сатуу платформасы.", about2:"Биз жөнүндө", contacts:"Байланыш", terms:"Пайдалануу шарттары", privacy:"Купуялуулук саясаты", legal:"«Biletal.KZ» ЖЧК, БСН 191 040 022 387", rights:"Бардык укуктар корголгон" },
+  whatsapp:{ label:"WhatsApp аркылуу жазыңыз" },
+  modal:{ text:"Бул рейске билет сатып алуу үчүн Bileton тиркемесин ачыңыз. Багыт жана күн сакталды.", noDate:"Күн тандалган жок" },
+},
+zh:{
+  meta:{ title:"Bileton — 在线购买长途汽车票", description:"Bileton 是覆盖哈萨克斯坦及周边国家的长途汽车票查询平台。" },
+  a11y:{ skip:"跳转到内容", close:"关闭" },
+  nav:{ how:"使用方法", routes:"热门路线", carriers:"承运商合作", faq:"常见问题", download:"下载应用", login:"登录" },
+  mobileMenu:{ contact:"联系我们" },
+  hero:{ h1:"轻松找到您的长途汽车票", sub:"覆盖哈萨克斯坦及周边国家数百条线路，可靠的承运商，出行时间灵活方便。", statRoutes:"条路线", statCities:"座城市", statRating:"评分", reviewsCount:"21,384 条评价" },
+  search:{ from:"出发地", to:"目的地", fromPlaceholder:"请选择城市", toPlaceholder:"请选择城市", date:"出发日期", passengers:"乘客人数", decrease:"减少", increase:"增加", submit:"搜索车票", swap:"交换出发地和目的地", error:"请选择出发地和目的地城市。" },
+  how:{ title:"使用方法", step1Title:"搜索", step1Text:"几秒钟内找到城市间的车票。", step2Title:"选择", step2Text:"自由选择座位、班车和时间。", step3Title:"支付", step3Text:"通过 Kaspi 安全支付。", step4Title:"出行", step4Text:"凭电子二维码车票在车站轻松检票上车。" },
+  benefits:{ title:"乘客选择 Bileton 的理由", b1Title:"中转路线", b1Text:"如果没有直达班次，我们会通过邻近城市为您安排路线。", b2Title:"精准选座", b2Text:"在车厢座位图上挑选最合适的位置。", b3Title:"推荐奖励", b3Text:"邀请好友注册，即可获得 500 坚戈奖励。", b4Title:"乘客评价", b4Text:"查看真实乘客的评论与承运商评分。", b5Title:"轻松退票", b5Text:"计划有变时，您可以在应用内轻松办理退票。", b6Title:"无需现金", b6Text:"通过 Kaspi 一键完成支付。" },
+  stats:{ routes:"条路线", cities:"座城市", trips:"每周班次", rating:"平均评分" },
+  routes:{ title:"热门目的地", tabCities:"城市", tabRoutes:"路线", fromPrefix:"起价" },
+  partners:{ title:"合作伙伴" },
+  reviews:{ title:"乘客评价", ratingLine:"5 分中的 4.8 分 (21,384 条评价)",
+    r1:{ name:"艾格瑞姆", city:"阿拉木图", text:"两分钟就买好了票，座位也是自己选的。车准时到达。" },
+    r2:{ name:"德米特里", city:"阿斯塔纳", text:"我是中转出行的，整个过程很顺利。车站扫码只需一秒。" },
+    r3:{ name:"阿谢尔", city:"奇姆肯特", text:"临时改变了行程，直接在应用里退票，不用打电话。" } },
+  app:{ title:"下载 Bileton 应用", text:"轻轻一点即可购票，车票随时随身携带。", downloadOn:"下载于", qrCaption:"用手机摄像头扫描" },
+  carriers:{ title:"让您的车队实现数字化运营", text:"线上售票，统一结算，仅收取 3% 佣金。", cta:"了解详情" },
+  faq:{ title:"常见问题",
+    q1:{ q:"如何购买长途汽车票？", a:"输入出发地、目的地、日期和乘客人数，然后在 Bileton 应用中完成购买。" },
+    q2:{ q:"可以退票吗？", a:"可以，在发车前您可以按照承运商规则在应用内办理退票。" },
+    q3:{ q:"支持哪些支付方式？", a:"支付通过 Kaspi 完成，安全且一键即可。" },
+    q4:{ q:"如果没有直达班次怎么办？", a:"Bileton 会为您安排经由邻近城市中转的路线。" },
+    q5:{ q:"如何获得邀请好友奖励？", a:"在应用中把您的推荐码发给好友，双方都会获得 500 坚戈奖励。" } },
+  footer:{ colPassenger:"乘客服务", colPartner:"合作伙伴", colCompany:"公司信息", stations:"汽车站合作", carrierPortal:"承运商后台", stationPortal:"汽车站后台", about:"Bileton 是覆盖哈萨克斯坦及周边国家的长途汽车票在线销售平台。", about2:"关于我们", contacts:"联系我们", terms:"使用条款", privacy:"隐私政策", legal:"Biletal.KZ 有限责任公司，税号 191 040 022 387", rights:"保留所有权利" },
+  whatsapp:{ label:"通过 WhatsApp 联系我们" },
+  modal:{ text:"如需购买此班次车票，请打开 Bileton 应用。路线和日期已为您保存。", noDate:"未选择日期" },
+},
+en:{
+  meta:{ title:"Bileton — Buy bus tickets online", description:"Bileton is a bus ticket search platform for Kazakhstan and neighboring countries." },
+  a11y:{ skip:"Skip to content", close:"Close" },
+  nav:{ how:"How it works", routes:"Routes", carriers:"For carriers", faq:"FAQ", download:"Get the app", login:"Log in" },
+  mobileMenu:{ contact:"Contact us" },
+  hero:{ h1:"Find your bus ticket in one place", sub:"Hundreds of routes across Kazakhstan and neighboring countries, trusted carriers, convenient departure times.", statRoutes:"routes", statCities:"cities", statRating:"rating", reviewsCount:"21,384 ratings" },
+  search:{ from:"From", to:"To", fromPlaceholder:"Choose a city", toPlaceholder:"Choose a city", date:"Departure date", passengers:"Passengers", decrease:"Decrease", increase:"Increase", submit:"Search tickets", swap:"Swap origin and destination", error:"Please choose a departure and destination city." },
+  how:{ title:"How it works", step1Title:"Search", step1Text:"Find a ticket from city to city in seconds.", step2Title:"Choose", step2Text:"Pick your seat, bus, and time yourself.", step3Title:"Pay", step3Text:"Pay securely through Kaspi.", step4Title:"Travel", step4Text:"Board easily at the station with your QR ticket." },
+  benefits:{ title:"Why passengers choose Bileton", b1Title:"Connecting routes", b1Text:"No direct trip? We find a route through the nearest city.", b2Title:"Pick your seat", b2Text:"Choose the seat that suits you on the bus map.", b3Title:"Referral bonus", b3Text:"Invite a friend and get a 500 tenge bonus.", b4Title:"Passenger ratings", b4Text:"See real passenger reviews and carrier ratings.", b5Title:"Easy refunds", b5Text:"Plans changed? Refund your ticket in the app with ease.", b6Title:"No cash needed", b6Text:"Pay in one tap through Kaspi." },
+  stats:{ routes:"Routes", cities:"Cities", trips:"Weekly trips", rating:"Average rating" },
+  routes:{ title:"Popular destinations", tabCities:"Cities", tabRoutes:"Routes", fromPrefix:"from" },
+  partners:{ title:"Our partners" },
+  reviews:{ title:"Passenger reviews", ratingLine:"4.8 out of 5 (21,384 ratings)",
+    r1:{ name:"Aigerim Nurlankyzy", city:"Almaty", text:"Bought my ticket in two minutes and picked my own seat. The bus arrived on time." },
+    r2:{ name:"Dmitriy Volkov", city:"Astana", text:"I traveled with a transfer and it was seamless. My QR ticket scanned in a second at the station." },
+    r3:{ name:"Assel Zhaksybekova", city:"Shymkent", text:"My plans changed last minute. I refunded the ticket right in the app without calling anyone." } },
+  app:{ title:"Download the Bileton app", text:"Get your ticket with one tap, always ready in your pocket.", downloadOn:"Download on the", qrCaption:"Scan with your phone camera" },
+  carriers:{ title:"Digitize your bus fleet", text:"Online sales, unified accounting, just 3% commission.", cta:"Learn more" },
+  faq:{ title:"Frequently asked questions",
+    q1:{ q:"How do I buy a bus ticket?", a:"Enter your departure and arrival cities, date, and passenger count, then finish the purchase in the Bileton app." },
+    q2:{ q:"Can I refund my ticket?", a:"Yes, you can refund it in the app before departure, according to the carrier's rules." },
+    q3:{ q:"What payment methods are available?", a:"Payment goes through Kaspi, secure and in one tap." },
+    q4:{ q:"What if there is no direct trip?", a:"Bileton will suggest a connecting route through the nearest city." },
+    q5:{ q:"How do I get the friend referral bonus?", a:"Send your referral code from the app to a friend. You'll both get a 500 tenge bonus." } },
+  footer:{ colPassenger:"For passengers", colPartner:"For partners", colCompany:"Company", stations:"For bus stations", carrierPortal:"Carrier portal", stationPortal:"Station portal", about:"Bileton is an online bus ticket platform for Kazakhstan and neighboring countries.", about2:"About us", contacts:"Contacts", terms:"Terms of use", privacy:"Privacy policy", legal:"Biletal.KZ LLP, BIN 191 040 022 387", rights:"All rights reserved" },
+  whatsapp:{ label:"Message us on WhatsApp" },
+  modal:{ text:"To buy a ticket for this trip, open the Bileton app. Your route and date are already saved.", noDate:"No date selected" },
+},
+};
+
+/* =====================================================================
+   DATA: cities, routes, partners, reviews
+   ===================================================================== */
+const CITY_NAMES = {
+  ALA:{ ru:'Алматы', kk:'Алматы', uz:'Almati', ky:'Алматы', zh:'阿拉木图', en:'Almaty' },
+  AST:{ ru:'Астана', kk:'Астана', uz:'Astana', ky:'Астана', zh:'阿斯塔纳', en:'Astana' },
+  SHY:{ ru:'Шымкент', kk:'Шымкент', uz:'Shimkent', ky:'Шымкент', zh:'奇姆肯特', en:'Shymkent' },
+  KAR:{ ru:'Караганда', kk:'Қарағанды', uz:"Qarag'andi", ky:'Караганды', zh:'卡拉干达', en:'Karaganda' },
+  AKT:{ ru:'Актобе', kk:'Ақтөбе', uz:'Aqtobe', ky:'Актобе', zh:'阿克托别', en:'Aktobe' },
+  TRZ:{ ru:'Тараз', kk:'Тараз', uz:'Taraz', ky:'Тараз', zh:'塔拉兹', en:'Taraz' },
+  PVL:{ ru:'Павлодар', kk:'Павлодар', uz:'Pavlodar', ky:'Павлодар', zh:'巴甫洛达尔', en:'Pavlodar' },
+  UKK:{ ru:'Усть-Каменогорск', kk:'Өскемен', uz:'Oskemen', ky:'Өскемен', zh:'乌斯季卡缅诺戈尔斯克', en:'Oskemen' },
+  SEM:{ ru:'Семей', kk:'Семей', uz:'Semey', ky:'Семей', zh:'谢米伊', en:'Semey' },
+  ATY:{ ru:'Атырау', kk:'Атырау', uz:'Atirau', ky:'Атырау', zh:'阿特劳', en:'Atyrau' },
+  KST:{ ru:'Костанай', kk:'Қостанай', uz:'Qostanay', ky:'Костанай', zh:'科斯塔奈', en:'Kostanay' },
+  KZO:{ ru:'Кызылорда', kk:'Қызылорда', uz:"Qizilo'rda", ky:'Кызылорда', zh:'克孜勒奥尔达', en:'Kyzylorda' },
+  URA:{ ru:'Уральск', kk:'Орал', uz:'Ural', ky:'Орал', zh:'乌拉尔斯克', en:'Oral' },
+  PTP:{ ru:'Петропавловск', kk:'Петропавл', uz:'Petropavl', ky:'Петропавл', zh:'彼得罗巴甫洛夫斯克', en:'Petropavl' },
+  TKS:{ ru:'Туркестан', kk:'Түркістан', uz:'Turkiston', ky:'Түркстан', zh:'突厥斯坦', en:'Turkistan' },
+  TDK:{ ru:'Талдыкорган', kk:'Талдықорған', uz:"Taldiqo'rg'on", ky:'Талдыкорган', zh:'塔尔迪库尔干', en:'Taldykorgan' },
+  AKU:{ ru:'Актау', kk:'Ақтау', uz:'Aqtau', ky:'Актау', zh:'阿克套', en:'Aktau' },
+  KOK:{ ru:'Кокшетау', kk:'Көкшетау', uz:'Kokshetau', ky:'Көкшетау', zh:'科克舍套', en:'Kokshetau' },
+  JEZ:{ ru:'Жезказган', kk:'Жезқазған', uz:"Jezqazg'on", ky:'Жезказган', zh:'杰兹卡兹甘', en:'Zhezkazgan' },
+  KSK:{ ru:'Каскелен', kk:'Қаскелең', uz:'Kaskelen', ky:'Каскелен', zh:'卡斯凯伦', en:'Kaskelen' },
+  BIS:{ ru:'Бишкек', kk:'Бішкек', uz:'Bishkek', ky:'Бишкек', zh:'比什凯克', en:'Bishkek' },
+  TAS:{ ru:'Ташкент', kk:'Ташкент', uz:'Toshkent', ky:'Ташкент', zh:'塔什干', en:'Tashkent' },
+};
+const POPULAR_CITY_CODES = ['ALA','AST','SHY','KAR','AKT','TRZ','PVL','UKK','SEM','ATY','KST','KZO','URA','PTP','TKS','TDK','AKU','KOK','JEZ','KSK'];
+const ALL_CITY_CODES = Object.keys(CITY_NAMES);
+
+const ROUTES = [
+  { from:'ALA', to:'SHY', price:3500 }, { from:'AST', to:'KAR', price:2800 },
+  { from:'ALA', to:'TRZ', price:4200 }, { from:'SHY', to:'TKS', price:1500 },
+  { from:'AST', to:'KOK', price:2200 }, { from:'ALA', to:'KSK', price:800 },
+  { from:'AKT', to:'ATY', price:5600 }, { from:'KAR', to:'JEZ', price:3900 },
+  { from:'ALA', to:'BIS', price:6000 }, { from:'SHY', to:'TAS', price:4800 },
+  { from:'UKK', to:'SEM', price:3200 }, { from:'URA', to:'AKT', price:4500 },
+];
+
+const PARTNERS = ['Сайран', 'Каскелен автобус паркі', 'Атамекен Инвест', 'Достық автовокзалы', 'Жетісу Транс'];
+
+/* =====================================================================
+   STATE + CORE I18N
+   ===================================================================== */
+let lang = 'ru';
+let searchCities = { from:null, to:null };
+let paxCount = 1;
+
+function detectLang(){
+  const saved = localStorage.getItem('bileton_lang');
+  if (saved && T[saved]) return saved;
+  const nav = (navigator.language || 'ru').slice(0,2).toLowerCase();
+  const map = { ru:'ru', kk:'kk', kz:'kk', uz:'uz', ky:'ky', kg:'ky', zh:'zh', en:'en' };
+  return map[nav] || 'ru';
+}
+
+function getPath(obj, path){
+  return path.split('.').reduce((o,k) => (o && o[k] !== undefined) ? o[k] : null, obj);
+}
+
+function applyTranslations(){
+  const dict = T[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.classList.toggle('lang-zh', lang === 'zh');
+
+  document.title = dict.meta.title;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', dict.meta.description);
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = getPath(dict, el.getAttribute('data-i18n'));
+    if (v !== null) el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const v = getPath(dict, el.getAttribute('data-i18n-placeholder'));
+    if (v !== null) el.setAttribute('placeholder', v);
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const v = getPath(dict, el.getAttribute('data-i18n-aria'));
+    if (v !== null) el.setAttribute('aria-label', v);
+  });
+
+  document.getElementById('lang-current').textContent = LANGS.find(l => l.code === lang).short;
+  renderLangMenu();
+  renderCities();
+  renderRoutes();
+  renderPartners();
+  renderReviews();
+  renderFaq();
+
+  if (lang === 'zh' && !document.getElementById('zh-font-link')) {
+    const link = document.createElement('link');
+    link.id = 'zh-font-link';
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&display=swap';
+    document.head.appendChild(link);
+  }
+}
+
+function setLang(code){
+  if (!T[code]) return;
+  lang = code;
+  localStorage.setItem('bileton_lang', code);
+  applyTranslations();
+}
+
+/* language dropdown */
+function renderLangMenu(){
+  const menu = document.getElementById('lang-menu');
+  menu.innerHTML = '';
+  LANGS.forEach(l => {
+    const li = document.createElement('li');
+    li.className = 'lang-item';
+    li.setAttribute('role','option');
+    li.setAttribute('aria-selected', String(l.code === lang));
+    li.innerHTML = `<span>${l.native}</span>${l.code === lang ? '<i class="ph ph-check-bold text-brandBlue"></i>' : ''}`;
+    li.addEventListener('click', () => { setLang(l.code); closeLangMenu(); });
+    menu.appendChild(li);
+  });
+}
+const langToggle = document.getElementById('lang-toggle');
+const langMenu = document.getElementById('lang-menu');
+function openLangMenu(){ langMenu.classList.add('open'); langToggle.setAttribute('aria-expanded','true'); }
+function closeLangMenu(){ langMenu.classList.remove('open'); langToggle.setAttribute('aria-expanded','false'); }
+langToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  langMenu.classList.contains('open') ? closeLangMenu() : openLangMenu();
+});
+document.addEventListener('click', (e) => { if (!langMenu.contains(e.target)) closeLangMenu(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLangMenu(); });
+
+/* =====================================================================
+   MOBILE MENU
+   ===================================================================== */
+const menuToggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+let savedScrollY = 0;
+function openMenu(){
+  savedScrollY = window.scrollY;
+  document.body.classList.add('menu-open');
+  document.body.style.top = `-${savedScrollY}px`;
+  mobileMenu.classList.add('open');
+  menuToggle.setAttribute('aria-expanded','true');
+  menuToggle.setAttribute('aria-label','Мәзірді жабу');
+}
+function closeMenu(){
+  document.body.classList.remove('menu-open');
+  document.body.style.top = '';
+  window.scrollTo(0, savedScrollY);
+  mobileMenu.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded','false');
+}
+menuToggle.addEventListener('click', () => {
+  menuToggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+});
+document.querySelectorAll('[data-close-menu]').forEach(el => el.addEventListener('click', closeMenu));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu(); });
+
+/* =====================================================================
+   STICKY HEADER STATE (IntersectionObserver, no scroll listener)
+   ===================================================================== */
+const header = document.getElementById('site-header');
+const sentinel = document.getElementById('hero-sentinel');
+if ('IntersectionObserver' in window && sentinel) {
+  new IntersectionObserver((entries) => {
+    header.classList.toggle('is-scrolled', !entries[0].isIntersecting);
+  }, { threshold: 0, rootMargin: `-${1}px 0px 0px 0px` }).observe(sentinel);
+}
+
+/* =====================================================================
+   CITY AUTOCOMPLETE
+   ===================================================================== */
+function cityLabel(code){ return CITY_NAMES[code][lang] || CITY_NAMES[code].ru; }
+
+function attachAutocomplete(inputEl, listEl, key){
+  let activeIndex = -1;
+  function renderOptions(query){
+    const q = query.trim().toLowerCase();
+    const matches = ALL_CITY_CODES
+      .map(code => ({ code, label: cityLabel(code) }))
+      .filter(c => !q || c.label.toLowerCase().includes(q))
+      .slice(0, 8);
+    listEl.innerHTML = '';
+    matches.forEach((m, i) => {
+      const li = document.createElement('li');
+      li.className = 'ac-option';
+      li.setAttribute('role','option');
+      li.id = `${listEl.id}-opt-${i}`;
+      li.innerHTML = `<i class="ph ph-map-pin text-brandBlue"></i><span>${m.label}</span>`;
+      li.addEventListener('mousedown', (e) => { e.preventDefault(); select(m.code, m.label); });
+      listEl.appendChild(li);
+    });
+    activeIndex = -1;
+    listEl.classList.toggle('open', matches.length > 0);
+    inputEl.setAttribute('aria-expanded', String(matches.length > 0));
+  }
+  function select(code, label){
+    inputEl.value = label;
+    searchCities[key] = code;
+    listEl.classList.remove('open');
+    inputEl.setAttribute('aria-expanded','false');
+  }
+  inputEl.addEventListener('input', () => { searchCities[key] = null; renderOptions(inputEl.value); });
+  inputEl.addEventListener('focus', () => renderOptions(inputEl.value));
+  inputEl.addEventListener('keydown', (e) => {
+    const opts = Array.from(listEl.querySelectorAll('.ac-option'));
+    if (!opts.length) return;
+    if (e.key === 'ArrowDown'){ e.preventDefault(); activeIndex = Math.min(activeIndex+1, opts.length-1); }
+    else if (e.key === 'ArrowUp'){ e.preventDefault(); activeIndex = Math.max(activeIndex-1, 0); }
+    else if (e.key === 'Enter'){ if (activeIndex >= 0){ e.preventDefault(); opts[activeIndex].dispatchEvent(new Event('mousedown')); } return; }
+    else return;
+    opts.forEach((o,i) => o.classList.toggle('active', i === activeIndex));
+  });
+  document.addEventListener('click', (e) => { if (!inputEl.contains(e.target) && !listEl.contains(e.target)) listEl.classList.remove('open'); });
+  inputEl._acSelect = select;
+}
+const fromInput = document.getElementById('from-input');
+const toInput = document.getElementById('to-input');
+attachAutocomplete(fromInput, document.getElementById('from-list'), 'from');
+attachAutocomplete(toInput, document.getElementById('to-list'), 'to');
+
+function swapCities(){
+  const fVal = fromInput.value, tVal = toInput.value;
+  const fCode = searchCities.from, tCode = searchCities.to;
+  fromInput.value = tVal; toInput.value = fVal;
+  searchCities.from = tCode; searchCities.to = fCode;
+}
+document.getElementById('swap-btn').addEventListener('click', swapCities);
+document.getElementById('swap-btn-mobile').addEventListener('click', swapCities);
+
+/* passenger stepper */
+const paxCountEl = document.getElementById('pax-count');
+document.getElementById('pax-minus').addEventListener('click', () => { paxCount = Math.max(1, paxCount-1); paxCountEl.textContent = paxCount; });
+document.getElementById('pax-plus').addEventListener('click', () => { paxCount = Math.min(9, paxCount+1); paxCountEl.textContent = paxCount; });
+
+/* date min = today */
+const dateInput = document.getElementById('date-input');
+dateInput.min = new Date().toISOString().split('T')[0];
+
+/* =====================================================================
+   SEARCH SUBMIT -> PHASE 1 MODAL
+   ===================================================================== */
+const searchModal = document.getElementById('search-modal');
+const searchError = document.getElementById('search-error');
+
+function openSearchModal(){
+  const fromLabel = searchCities.from ? cityLabel(searchCities.from) : fromInput.value;
+  const toLabel = searchCities.to ? cityLabel(searchCities.to) : toInput.value;
+  document.getElementById('modal-route').textContent = `${fromLabel} → ${toLabel}`;
+  const dateEl = document.getElementById('modal-date');
+  dateEl.textContent = dateInput.value
+    ? new Date(dateInput.value).toLocaleDateString(lang === 'kk' ? 'kk-KZ' : lang, { day:'numeric', month:'long', year:'numeric' })
+    : T[lang].modal.noDate;
+  searchModal.classList.add('open');
+}
+function closeSearchModal(){ searchModal.classList.remove('open'); }
+document.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeSearchModal));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && searchModal.classList.contains('open')) closeSearchModal(); });
+
+document.getElementById('search-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!fromInput.value.trim() || !toInput.value.trim()) {
+    searchError.classList.remove('hidden');
+    (fromInput.value.trim() ? toInput : fromInput).focus();
+    return;
+  }
+  searchError.classList.add('hidden');
+  openSearchModal();
+});
+
+function fillSearchAndScroll(fromCode, toCode){
+  if (fromCode) { fromInput.value = cityLabel(fromCode); searchCities.from = fromCode; }
+  if (toCode) { toInput.value = cityLabel(toCode); searchCities.to = toCode; }
+  document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* =====================================================================
+   RENDER: cities / routes / partners / reviews / faq
+   ===================================================================== */
+function renderCities(){
+  const grid = document.getElementById('cities-grid');
+  grid.innerHTML = '';
+  POPULAR_CITY_CODES.forEach(code => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'card-hover flex items-center gap-2.5 bg-white rounded-2xl shadow-card px-4 py-3.5 text-left';
+    btn.innerHTML = `<i class="ph ph-map-pin text-brandBlue"></i><span class="font-medium text-[15px]">${cityLabel(code)}</span>`;
+    btn.addEventListener('click', () => fillSearchAndScroll(null, code));
+    grid.appendChild(btn);
+  });
+}
+
+function renderRoutes(){
+  const grid = document.getElementById('routes-grid');
+  grid.innerHTML = '';
+  const prefix = T[lang].routes.fromPrefix;
+  ROUTES.forEach(r => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'card-hover flex items-center justify-between gap-3 bg-white rounded-2xl shadow-card px-5 py-4 text-left';
+    let priceText;
+    if (lang === 'kk') priceText = `${r.price.toLocaleString('ru-RU')} ₸-дан`;
+    else if (lang === 'uz') priceText = `${r.price.toLocaleString('ru-RU')} ₸ dan`;
+    else if (lang === 'ky') priceText = `${r.price.toLocaleString('ru-RU')} ₸ дан`;
+    else if (lang === 'zh') priceText = `${prefix} ${r.price.toLocaleString('ru-RU')} 坚戈`;
+    else if (lang === 'en') priceText = `${prefix} ₸${r.price.toLocaleString('en-US')}`;
+    else priceText = `${prefix} ${r.price.toLocaleString('ru-RU')} ₸`;
+    btn.innerHTML = `
+      <span class="flex items-center gap-2 font-medium text-[15px]">
+        ${cityLabel(r.from)} <i class="ph ph-arrow-right text-ink/30"></i> ${cityLabel(r.to)}
+      </span>
+      <span class="text-brandBlue font-heading font-bold text-sm whitespace-nowrap">${priceText}</span>`;
+    btn.addEventListener('click', () => fillSearchAndScroll(r.from, r.to));
+    grid.appendChild(btn);
+  });
+}
+
+function renderPartners(){
+  const row = document.getElementById('partners-row');
+  row.innerHTML = '';
+  PARTNERS.forEach(name => {
+    const initials = name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+    const wrap = document.createElement('div');
+    wrap.className = 'flex items-center gap-2.5 grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all';
+    wrap.innerHTML = `
+      <span class="w-9 h-9 rounded-full flex items-center justify-center font-heading font-bold text-xs text-white" style="background:linear-gradient(135deg,var(--blue),var(--navy))">${initials}</span>
+      <span class="font-medium text-sm whitespace-nowrap">${name}</span>`;
+    row.appendChild(wrap);
+  });
+}
+
+function avatarColor(seed){
+  const colors = ['#0A6BFF','#062C5B','#00A6D1','#3A7BD5','#1B4F8A'];
+  return colors[seed % colors.length];
+}
+function renderReviews(){
+  const grid = document.getElementById('reviews-grid');
+  grid.innerHTML = '';
+  ['r1','r2','r3'].forEach((key, i) => {
+    const r = T[lang].reviews[key];
+    const initials = r.name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+    const card = document.createElement('div');
+    card.className = 'bg-white/95 backdrop-blur rounded-2xl shadow-floating p-6';
+    card.innerHTML = `
+      <div class="flex text-brandBlue mb-3" aria-hidden="true">${'<i class="ph ph-fill ph-star"></i>'.repeat(5)}</div>
+      <p class="text-ink/80 leading-relaxed text-[15px] mb-5">${r.text}</p>
+      <div class="flex items-center gap-3">
+        <span class="w-10 h-10 rounded-full flex items-center justify-center font-heading font-bold text-white text-sm" style="background:${avatarColor(i)}">${initials}</span>
+        <div>
+          <p class="font-semibold text-sm leading-tight">${r.name}</p>
+          <p class="text-ink/50 text-xs mt-0.5">${r.city}</p>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function renderFaq(){
+  const list = document.getElementById('faq-list');
+  list.innerHTML = '';
+  ['q1','q2','q3','q4','q5'].forEach((key, i) => {
+    const item = T[lang].faq[key];
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
+      <button type="button" class="acc-item w-full flex items-center justify-between gap-4 py-5 text-left" aria-expanded="false" aria-controls="faq-panel-${i}">
+        <span class="font-heading font-semibold text-base sm:text-lg">${item.q}</span>
+        <i class="ph ph-caret-down acc-chevron text-brandBlue text-xl shrink-0" aria-hidden="true"></i>
+      </button>
+      <div class="acc-panel" id="faq-panel-${i}"><div><p class="text-ink/65 leading-relaxed pb-5 pr-8">${item.a}</p></div></div>`;
+    list.appendChild(wrap);
+    const btn = wrap.querySelector('.acc-item');
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      list.querySelectorAll('.acc-item').forEach(b => b.setAttribute('aria-expanded','false'));
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+}
+
+/* =====================================================================
+   TABS (cities / routes)
+   ===================================================================== */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.classList.add('text-ink/50'); });
+    btn.classList.add('active'); btn.classList.remove('text-ink/50');
+    const isCities = btn.dataset.tab === 'cities';
+    document.getElementById('cities-grid').classList.toggle('hidden', !isCities);
+    document.getElementById('routes-grid').classList.toggle('hidden', isCities);
+  });
+});
+
+/* =====================================================================
+   SCROLL REVEALS (GSAP + ScrollTrigger, IntersectionObserver fallback)
+   ===================================================================== */
+function initReveals(){
+  const reveals = document.querySelectorAll('.reveal');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveals.forEach(el => el.classList.add('revealed'));
+    return;
+  }
+
+  // Staggered reveal-on-scroll, grouped by containing section so siblings
+  // cascade together instead of popping in one by one.
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const section = entry.target.closest('section') || document.body;
+      const siblings = Array.from(section.querySelectorAll('.reveal:not(.revealed)'));
+      siblings.forEach((el, i) => setTimeout(() => el.classList.add('revealed'), i * 70));
+      siblings.forEach(el => io.unobserve(el));
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+  reveals.forEach(el => io.observe(el));
+
+  // Safety net: content already sitting inside the viewport must never stay
+  // invisible because of a missed trigger (resize edge case, slow observer, etc).
+  setTimeout(() => {
+    reveals.forEach(el => {
+      if (el.classList.contains('revealed')) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) el.classList.add('revealed');
+    });
+  }, 1800);
+}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+lang = detectLang();
+applyTranslations();
+window.addEventListener('load', initReveals);
+</script>
+</body>
+</html>

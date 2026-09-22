@@ -1,0 +1,14 @@
+{
+  "name": "bileton-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bileton marketing website (phase 1)",
+  "scripts": {
+    "serve": "node serve.mjs",
+    "screenshot": "node screenshot.mjs"
+  },
+  "dependencies": {
+    "puppeteer": "^25.11.0"
+  }
+}
