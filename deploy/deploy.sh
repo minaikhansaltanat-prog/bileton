@@ -23,18 +23,16 @@ HOST="${DEPLOY_HOST:?Set DEPLOY_HOST to the VPS IP or hostname}"
 USER="${DEPLOY_USER:-root}"
 PORT="${DEPLOY_PORT:-22}"
 REMOTE_PATH="${DEPLOY_PATH:-/var/www/bileton}"
-KEY_OPT=()
+SSH_CMD=(ssh -p "${PORT}")
 if [[ -n "${DEPLOY_KEY:-}" ]]; then
-  KEY_OPT=(-e "ssh -i ${DEPLOY_KEY} -p ${PORT}")
-else
-  KEY_OPT=(-e "ssh -p ${PORT}")
+  SSH_CMD+=(-i "${DEPLOY_KEY}")
 fi
 
 echo "Deploying to ${USER}@${HOST}:${REMOTE_PATH} ..."
 
-ssh "${KEY_OPT[@]:1}" "${USER}@${HOST}" "mkdir -p '${REMOTE_PATH}'"
+"${SSH_CMD[@]}" "${USER}@${HOST}" "mkdir -p '${REMOTE_PATH}'"
 
-rsync -avz --progress "${KEY_OPT[@]}" \
+rsync -avz --progress -e "$(printf '%q ' "${SSH_CMD[@]}")" \
   --exclude 'node_modules/' \
   --exclude '.git/' \
   --exclude '.gitignore' \
