@@ -1106,6 +1106,31 @@ function closeSearchModal(){ searchModal.classList.remove('open'); }
 document.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeSearchModal));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && searchModal.classList.contains('open')) closeSearchModal(); });
 
+// book.bileton.kz (tauekel-app Expo web-export) is now the live checkout.
+// Its home/search screen reads exactly two query params, confirmed directly
+// with the tauekel-app session (src/app/index.tsx + src/lib/stations.ts):
+// `originCode` / `destinationCode`, matching its STATIONS list of route
+// codes (not city names). There is no date param yet. Most of our internal
+// city codes already match those station codes (ALA, SHY, ...); the one
+// confirmed mismatch is Bishkek (ours: BIS, theirs: FRU, the real airport
+// code). Only ALA/SHY/FRU have seeded routes today, so other cities simply
+// won't autofill on the other end yet, harmlessly, until more routes exist.
+const TAUEKEL_STATION_CODES = { BIS: 'FRU' };
+function toTauekelStationCode(code){ return TAUEKEL_STATION_CODES[code] || code; }
+
+const BOOKING_URL = 'https://book.bileton.kz/';
+function goToBooking(){
+  if (searchCities.from && searchCities.to) {
+    const originCode = encodeURIComponent(toTauekelStationCode(searchCities.from));
+    const destinationCode = encodeURIComponent(toTauekelStationCode(searchCities.to));
+    window.location.href = `${BOOKING_URL}?originCode=${originCode}&destinationCode=${destinationCode}`;
+  } else {
+    // Free-typed city text with no resolved code (autocomplete not used):
+    // land on book.bileton.kz's own search instead of guessing a code.
+    window.location.href = BOOKING_URL;
+  }
+}
+
 document.getElementById('search-form').addEventListener('submit', (e) => {
   e.preventDefault();
   if (!fromInput.value.trim() || !toInput.value.trim()) {
@@ -1114,7 +1139,7 @@ document.getElementById('search-form').addEventListener('submit', (e) => {
     return;
   }
   searchError.classList.add('hidden');
-  openSearchModal();
+  goToBooking();
 });
 
 function fillSearchAndScroll(fromCode, toCode){
