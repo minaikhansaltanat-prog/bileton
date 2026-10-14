@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="preload" as="image" href="assets/img/hero-coastal.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/promo-desktop-poster.jpg" fetchpriority="high">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -292,12 +292,15 @@
         </div>
       </div>
 
-      <div class="hero-in-4 relative hidden lg:block">
+      <div class="hero-in-4 relative">
         <div class="absolute -inset-10 rounded-[40px] opacity-70 blur-3xl" style="background:radial-gradient(circle, var(--cyan), transparent 68%);"></div>
-        <picture>
-          <source srcset="assets/img/hero-coastal.webp" type="image/webp">
-          <img src="assets/img/hero-coastal.jpg" alt="Bileton автобусы Қазақстан мен көрші елдер бойынша жол жүреді" width="1200" height="1200" class="relative rounded-3xl shadow-floating w-full aspect-square object-cover ring-1 ring-white/25 ring-inset" style="box-shadow:0 24px 60px rgba(0,0,0,.45), 0 4px 16px rgba(0,0,0,.3);" loading="eager" fetchpriority="high">
-        </picture>
+        <div class="relative rounded-3xl overflow-hidden ring-1 ring-white/25" style="box-shadow:0 24px 60px rgba(0,0,0,.45), 0 4px 16px rgba(0,0,0,.3);">
+          <video id="hero-video-desktop" class="hidden md:block w-full h-auto" width="1920" height="1080" muted loop playsinline preload="metadata" poster="assets/img/promo-desktop-poster.jpg"></video>
+          <video id="hero-video-mobile" class="md:hidden w-full h-auto" width="1080" height="1920" muted loop playsinline preload="metadata" poster="assets/img/promo-mobile-poster.jpg"></video>
+          <button id="hero-mute-toggle" type="button" class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-black/55 backdrop-blur flex items-center justify-center text-white hover:bg-black/70 transition-colors z-10" aria-pressed="false">
+            <i class="ph ph-speaker-x text-lg" aria-hidden="true"></i>
+          </button>
+        </div>
         <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-floating px-5 py-4 flex items-center gap-3 z-10">
           <span class="w-11 h-11 rounded-full bg-brandLight flex items-center justify-center"><i class="ph ph-fill ph-star text-brandBlue text-xl"></i></span>
           <div>
@@ -615,6 +618,7 @@
         <li><a href="#footer-contact" class="hover:text-white transition-colors" data-i18n="footer.contacts">Байланыс</a></li>
         <li><a href="#" class="hover:text-white transition-colors" data-i18n="footer.terms">Пайдалану шарттары</a></li>
         <li><a href="privacy.html" class="hover:text-white transition-colors" data-i18n="footer.privacy">Құпиялылық саясаты</a></li>
+        <li><a href="delete-account.html" class="hover:text-white transition-colors" data-i18n="footer.deleteAccount">Аккаунтты жою</a></li>
       </ul>
     </div>
   </div>
@@ -682,7 +686,7 @@ ru:{
   a11y:{ skip:"Перейти к содержимому", close:"Закрыть" },
   nav:{ how:"Как это работает", routes:"Направления", carriers:"Перевозчикам", faq:"Вопросы", download:"Скачать приложение", login:"Войти" },
   mobileMenu:{ contact:"Связаться с нами" },
-  hero:{ h1:"Найдите билет на автобус в одном месте", sub:"Сотни направлений по Казахстану и соседним странам, надёжные перевозчики, удобное время в пути.", statRoutes:"направлений", statCities:"городов", statRating:"оценка", reviewsCount:"21 384 оценки" },
+  hero:{ h1:"Найдите билет на автобус в одном месте", sub:"Сотни направлений по Казахстану и соседним странам, надёжные перевозчики, удобное время в пути.", statRoutes:"направлений", statCities:"городов", statRating:"оценка", reviewsCount:"21 384 оценки", soundOn:"Включить звук", soundOff:"Выключить звук" },
   search:{ from:"Откуда", to:"Куда", fromPlaceholder:"Выберите город", toPlaceholder:"Выберите город", date:"Дата отправления", passengers:"Пассажиры", decrease:"Уменьшить", increase:"Увеличить", submit:"Искать билеты", swap:"Поменять местами", error:"Укажите город отправления и назначения." },
   how:{ title:"Как это работает", step1Title:"Поиск", step1Text:"Найдите билет из города в город за несколько секунд.", step2Title:"Выбор", step2Text:"Сами выбираете место, автобус и время.", step3Title:"Оплата", step3Text:"Оплачивайте безопасно через Kaspi.", step4Title:"В пути", step4Text:"Проходите посадку на автовокзале по QR-билету." },
   benefits:{ title:"Почему пассажиры выбирают Bileton", b1Title:"Маршруты с пересадкой", b1Text:"Если нет прямого рейса, мы найдём путь через ближайший город.", b2Title:"Точный выбор места", b2Text:"Выбирайте удобное место прямо на схеме автобуса.", b3Title:"Реферальный бонус", b3Text:"Пригласите друга и получите бонус 500 тенге.", b4Title:"Оценки пассажиров", b4Text:"Смотрите реальные отзывы и рейтинг перевозчика.", b5Title:"Лёгкий возврат", b5Text:"Планы изменились, легко вернёте билет в приложении.", b6Title:"Без наличных", b6Text:"Оплата в один клик через Kaspi." },
@@ -701,7 +705,7 @@ ru:{
     q3:{ q:"Какие способы оплаты доступны?", a:"Оплата проходит через Kaspi, безопасно и в один клик." },
     q4:{ q:"Что делать, если нет прямого рейса?", a:"Bileton подберёт маршрут с пересадкой через ближайший город." },
     q5:{ q:"Как получить бонус за приглашение друга?", a:"Отправьте другу свой реферальный код в приложении, оба получите бонус 500 тенге." } },
-  footer:{ colPassenger:"Пассажирам", colPartner:"Партнёрам", colCompany:"Компания", stations:"Автовокзалам", carrierPortal:"Кабинет перевозчика", stationPortal:"Кабинет автовокзала", about:"Bileton - платформа онлайн-продажи автобусных билетов по Казахстану и соседним странам.", about2:"О нас", contacts:"Контакты", terms:"Условия использования", privacy:"Политика конфиденциальности", legal:"ТОО «Biletal.KZ», БИН 191 040 022 387", rights:"Все права защищены" },
+  footer:{ colPassenger:"Пассажирам", colPartner:"Партнёрам", colCompany:"Компания", stations:"Автовокзалам", carrierPortal:"Кабинет перевозчика", stationPortal:"Кабинет автовокзала", about:"Bileton - платформа онлайн-продажи автобусных билетов по Казахстану и соседним странам.", about2:"О нас", contacts:"Контакты", terms:"Условия использования", privacy:"Политика конфиденциальности", deleteAccount:"Удалить аккаунт", legal:"ТОО «Biletal.KZ», БИН 191 040 022 387", rights:"Все права защищены" },
   whatsapp:{ label:"Написать в WhatsApp" },
   modal:{ text:"Чтобы купить билет на этот рейс, откройте приложение Bileton. Маршрут и дата уже сохранены.", noDate:"Дата не выбрана" },
 },
@@ -710,7 +714,7 @@ kk:{
   a11y:{ skip:"Мазмұнға өту", close:"Жабу" },
   nav:{ how:"Қалай жұмыс істейді", routes:"Бағыттар", carriers:"Тасымалдаушыларға", faq:"Сұрақ-жауап", download:"Қосымшаны жүктеу", login:"Кіру" },
   mobileMenu:{ contact:"Байланыс" },
-  hero:{ h1:"Автобус билетін бір орыннан табыңыз", sub:"Қазақстан мен көрші елдер бойынша жүздеген бағыт, сенімді тасымалдаушылар, ыңғайлы уақыт.", statRoutes:"бағыт", statCities:"қала", statRating:"баға", reviewsCount:"21 384 баға" },
+  hero:{ h1:"Автобус билетін бір орыннан табыңыз", sub:"Қазақстан мен көрші елдер бойынша жүздеген бағыт, сенімді тасымалдаушылар, ыңғайлы уақыт.", statRoutes:"бағыт", statCities:"қала", statRating:"баға", reviewsCount:"21 384 баға", soundOn:"Дыбысты қосу", soundOff:"Дыбысты өшіру" },
   search:{ from:"Қайдан", to:"Қайда", fromPlaceholder:"Қала таңдаңыз", toPlaceholder:"Қала таңдаңыз", date:"Кету күні", passengers:"Жолаушылар саны", decrease:"Азайту", increase:"Көбейту", submit:"Билет іздеу", swap:"Орындарын алмастыру", error:"Қайдан және қайда бағытын таңдаңыз." },
   how:{ title:"Қалай жұмыс істейді", step1Title:"Іздеу", step1Text:"Қаладан қалаға билетті бірнеше секундта табыңыз.", step2Title:"Таңдау", step2Text:"Орынды, автобусты, уақытты өзіңіз таңдайсыз.", step3Title:"Төлеу", step3Text:"Kaspi арқылы қауіпсіз төлейсіз.", step4Title:"Жол жүру", step4Text:"QR-билетпен автовокзалда посадкадан оңай өтесіз." },
   benefits:{ title:"Bileton не үшін ыңғайлы", b1Title:"Ауысулы бағыттар", b1Text:"Тікелей рейс болмаса, аралық қала арқылы жол табамыз.", b2Title:"Нақты орын таңдау", b2Text:"Автобус схемасынан өзіңізге ыңғайлы орынды таңдайсыз.", b3Title:"Рефералдық бонус", b3Text:"Досыңызды шақырып, 500 теңге бонус аласыз.", b4Title:"Жолаушы бағалауы", b4Text:"Нақты жолаушылардың пікірі мен рейтингін көресіз.", b5Title:"Оңай болдыру", b5Text:"Жоспарыңыз өзгерсе, билетті қайтара аласыз.", b6Title:"Қолма-қол төлем жоқ", b6Text:"Kaspi арқылы бір рет басып төлейсіз." },
@@ -729,7 +733,7 @@ kk:{
     q3:{ q:"Қандай төлем тәсілдері бар?", a:"Төлем Kaspi арқылы, қауіпсіз әрі бір басуда өтеді." },
     q4:{ q:"Тікелей рейс болмаса не істеймін?", a:"Bileton жақын қала арқылы ауысулы бағыт ұсынады." },
     q5:{ q:"Досты шақырғаны үшін бонусты қалай аламын?", a:"Қосымшадағы реферал кодыңызды досыңызға жіберіңіз, екеуің де 500 теңге бонус аласыздар." } },
-  footer:{ colPassenger:"Жолаушыға", colPartner:"Серіктестерге", colCompany:"Компания", stations:"Автовокзалдарға", carrierPortal:"Тасымалдаушы кабинеті", stationPortal:"Автовокзал кабинеті", about:"Bileton - Қазақстан мен көрші елдер бойынша автобус билеттерін онлайн сату платформасы.", about2:"Біз туралы", contacts:"Байланыс", terms:"Пайдалану шарттары", privacy:"Құпиялылық саясаты", legal:"«Biletal.KZ» ЖШС, БСН 191 040 022 387", rights:"Барлық құқық қорғалған" },
+  footer:{ colPassenger:"Жолаушыға", colPartner:"Серіктестерге", colCompany:"Компания", stations:"Автовокзалдарға", carrierPortal:"Тасымалдаушы кабинеті", stationPortal:"Автовокзал кабинеті", about:"Bileton - Қазақстан мен көрші елдер бойынша автобус билеттерін онлайн сату платформасы.", about2:"Біз туралы", contacts:"Байланыс", terms:"Пайдалану шарттары", privacy:"Құпиялылық саясаты", deleteAccount:"Аккаунтты жою", legal:"«Biletal.KZ» ЖШС, БСН 191 040 022 387", rights:"Барлық құқық қорғалған" },
   whatsapp:{ label:"WhatsApp арқылы жазыңыз" },
   modal:{ text:"Осы рейске билет сатып алу үшін Bileton қосымшасын ашыңыз. Бағыт пен күн сақталды.", noDate:"Күн таңдалмады" },
 },
@@ -738,7 +742,7 @@ uz:{
   a11y:{ skip:"Mazmunga o'tish", close:"Yopish" },
   nav:{ how:"Bu qanday ishlaydi", routes:"Yo'nalishlar", carriers:"Tashuvchilarga", faq:"Savollar", download:"Ilovani yuklab olish", login:"Kirish" },
   mobileMenu:{ contact:"Biz bilan bog'lanish" },
-  hero:{ h1:"Avtobus chiptangizni bir joydan toping", sub:"Qozog'iston va qo'shni davlatlar bo'ylab yuzlab yo'nalish, ishonchli tashuvchilar, qulay vaqt.", statRoutes:"yo'nalish", statCities:"shahar", statRating:"baho", reviewsCount:"21 384 baho" },
+  hero:{ h1:"Avtobus chiptangizni bir joydan toping", sub:"Qozog'iston va qo'shni davlatlar bo'ylab yuzlab yo'nalish, ishonchli tashuvchilar, qulay vaqt.", statRoutes:"yo'nalish", statCities:"shahar", statRating:"baho", reviewsCount:"21 384 baho", soundOn:"Ovozni yoqish", soundOff:"Ovozni o'chirish" },
   search:{ from:"Qayerdan", to:"Qayerga", fromPlaceholder:"Shaharni tanlang", toPlaceholder:"Shaharni tanlang", date:"Jo'nash sanasi", passengers:"Yo'lovchilar soni", decrease:"Kamaytirish", increase:"Ko'paytirish", submit:"Chipta qidirish", swap:"O'rinlarini almashtirish", error:"Jo'nash va yetib borish shaharlarini tanlang." },
   how:{ title:"Bu qanday ishlaydi", step1Title:"Qidiruv", step1Text:"Shahardan shaharga chiptani bir necha soniyada toping.", step2Title:"Tanlash", step2Text:"O'rindiq, avtobus va vaqtni o'zingiz tanlaysiz.", step3Title:"To'lov", step3Text:"Kaspi orqali xavfsiz to'lov qilasiz.", step4Title:"Yo'lda", step4Text:"QR-chipta bilan avtovokzalda chiqishdan oson o'tasiz." },
   benefits:{ title:"Nega yo'lovchilar Bileton-ni tanlaydi", b1Title:"Almashinuvli yo'nalishlar", b1Text:"To'g'ridan-to'g'ri reys bo'lmasa, yaqin shahar orqali yo'l topamiz.", b2Title:"Aniq o'rindiq tanlash", b2Text:"Avtobus sxemasidan o'zingizga qulay o'rindiqni tanlaysiz.", b3Title:"Referal bonusi", b3Text:"Do'stingizni taklif qiling va 500 tenge bonus oling.", b4Title:"Yo'lovchi baholari", b4Text:"Haqiqiy yo'lovchilarning fikri va reytingini ko'rasiz.", b5Title:"Oson bekor qilish", b5Text:"Rejangiz o'zgarsa, chiptani ilova orqali osongina qaytarasiz.", b6Title:"Naqd pulsiz to'lov", b6Text:"Kaspi orqali bir bosishda to'lov qilasiz." },
@@ -757,7 +761,7 @@ uz:{
     q3:{ q:"Qanday to'lov usullari mavjud?", a:"To'lov Kaspi orqali, xavfsiz va bir bosishda amalga oshadi." },
     q4:{ q:"To'g'ridan-to'g'ri reys bo'lmasa nima qilaman?", a:"Bileton yaqin shahar orqali almashinuvli yo'nalish taklif qiladi." },
     q5:{ q:"Do'stni taklif qilgani uchun bonusni qanday olaman?", a:"Ilovadagi referal kodingizni do'stingizga yuboring, ikkalangiz ham 500 tenge bonus olasiz." } },
-  footer:{ colPassenger:"Yo'lovchilarga", colPartner:"Hamkorlarga", colCompany:"Kompaniya", stations:"Avtovokzallarga", carrierPortal:"Tashuvchi kabineti", stationPortal:"Avtovokzal kabineti", about:"Bileton - Qozog'iston va qo'shni davlatlar bo'ylab avtobus chiptalarini onlayn sotish platformasi.", about2:"Biz haqimizda", contacts:"Aloqa", terms:"Foydalanish shartlari", privacy:"Maxfiylik siyosati", legal:"«Biletal.KZ» MChJ, BIN 191 040 022 387", rights:"Barcha huquqlar himoyalangan" },
+  footer:{ colPassenger:"Yo'lovchilarga", colPartner:"Hamkorlarga", colCompany:"Kompaniya", stations:"Avtovokzallarga", carrierPortal:"Tashuvchi kabineti", stationPortal:"Avtovokzal kabineti", about:"Bileton - Qozog'iston va qo'shni davlatlar bo'ylab avtobus chiptalarini onlayn sotish platformasi.", about2:"Biz haqimizda", contacts:"Aloqa", terms:"Foydalanish shartlari", privacy:"Maxfiylik siyosati", deleteAccount:"Hisobni o'chirish", legal:"«Biletal.KZ» MChJ, BIN 191 040 022 387", rights:"Barcha huquqlar himoyalangan" },
   whatsapp:{ label:"WhatsApp orqali yozing" },
   modal:{ text:"Ushbu reysga chipta sotib olish uchun Bileton ilovasini oching. Yo'nalish va sana saqlab qo'yildi.", noDate:"Sana tanlanmadi" },
 },
@@ -766,7 +770,7 @@ ky:{
   a11y:{ skip:"Мазмунга өтүү", close:"Жабуу" },
   nav:{ how:"Бул кантип иштейт", routes:"Багыттар", carriers:"Ташуучуларга", faq:"Суроо-жооп", download:"Тиркемени жүктөө", login:"Кирүү" },
   mobileMenu:{ contact:"Байланыш" },
-  hero:{ h1:"Автобус билетиңизди бир жерден табыңыз", sub:"Казакстан жана коңшу өлкөлөр боюнча жүздөгөн багыт, ишенимдүү ташуучулар, ыңгайлуу убакыт.", statRoutes:"багыт", statCities:"шаар", statRating:"баа", reviewsCount:"21 384 баа" },
+  hero:{ h1:"Автобус билетиңизди бир жерден табыңыз", sub:"Казакстан жана коңшу өлкөлөр боюнча жүздөгөн багыт, ишенимдүү ташуучулар, ыңгайлуу убакыт.", statRoutes:"багыт", statCities:"шаар", statRating:"баа", reviewsCount:"21 384 баа", soundOn:"Үндү күйгүзүү", soundOff:"Үндү өчүрүү" },
   search:{ from:"Кайдан", to:"Кайда", fromPlaceholder:"Шаарды тандаңыз", toPlaceholder:"Шаарды тандаңыз", date:"Чыгуу күнү", passengers:"Жолоочулар саны", decrease:"Азайтуу", increase:"Көбөйтүү", submit:"Билет издөө", swap:"Орундарын алмаштыруу", error:"Кайдан жана кайда багытын тандаңыз." },
   how:{ title:"Бул кантип иштейт", step1Title:"Издөө", step1Text:"Шаардан шаарга билетти бир нече секундда табыңыз.", step2Title:"Тандоо", step2Text:"Орунду, автобусту, убакытты өзүңүз тандайсыз.", step3Title:"Төлөм", step3Text:"Kaspi аркылуу коопсуз төлөйсүз.", step4Title:"Жолдо", step4Text:"QR-билет менен автобекетте отургузуудан оңой өтөсүз." },
   benefits:{ title:"Эмне үчүн жолоочулар Bileton-ду тандайт", b1Title:"Которуп өтүүчү багыттар", b1Text:"Түз рейс болбосо, жакынкы шаар аркылуу жол табабыз.", b2Title:"Так орун тандоо", b2Text:"Автобус схемасынан өзүңүзгө ыңгайлуу орунду тандайсыз.", b3Title:"Дос чакыруу бонусу", b3Text:"Досуңузду чакырып, 500 теңге бонус аласыз.", b4Title:"Жолоочу баалары", b4Text:"Реалдуу жолоочулардын пикирин жана рейтингин көрөсүз.", b5Title:"Оңой жокко чыгаруу", b5Text:"Пландарыңыз өзгөрсө, билетти тиркемеден оңой кайтара аласыз.", b6Title:"Накталай төлөм жок", b6Text:"Kaspi аркылуу бир басуу менен төлөйсүз." },
@@ -785,7 +789,7 @@ ky:{
     q3:{ q:"Кандай төлөм ыкмалары бар?", a:"Төлөм Kaspi аркылуу, коопсуз жана бир басуу менен өтөт." },
     q4:{ q:"Түз рейс болбосо эмне кылам?", a:"Bileton жакынкы шаар аркылуу которуп өтүүчү багыт сунуштайт." },
     q5:{ q:"Дос чакыргандыгы үчүн бонусту кантип алам?", a:"Тиркемедеги референдук кодуңузду досуңузга жөнөтүңүз, экөөңүз тең 500 теңге бонус аласыздар." } },
-  footer:{ colPassenger:"Жолоочуларга", colPartner:"Өнөктөштөргө", colCompany:"Компания", stations:"Автобекеттерге", carrierPortal:"Ташуучу кабинети", stationPortal:"Автобекет кабинети", about:"Bileton - Казакстан жана коңшу өлкөлөр боюнча автобус билеттерин онлайн сатуу платформасы.", about2:"Биз жөнүндө", contacts:"Байланыш", terms:"Пайдалануу шарттары", privacy:"Купуялуулук саясаты", legal:"«Biletal.KZ» ЖЧК, БСН 191 040 022 387", rights:"Бардык укуктар корголгон" },
+  footer:{ colPassenger:"Жолоочуларга", colPartner:"Өнөктөштөргө", colCompany:"Компания", stations:"Автобекеттерге", carrierPortal:"Ташуучу кабинети", stationPortal:"Автобекет кабинети", about:"Bileton - Казакстан жана коңшу өлкөлөр боюнча автобус билеттерин онлайн сатуу платформасы.", about2:"Биз жөнүндө", contacts:"Байланыш", terms:"Пайдалануу шарттары", privacy:"Купуялуулук саясаты", deleteAccount:"Аккаунтту өчүрүү", legal:"«Biletal.KZ» ЖЧК, БСН 191 040 022 387", rights:"Бардык укуктар корголгон" },
   whatsapp:{ label:"WhatsApp аркылуу жазыңыз" },
   modal:{ text:"Бул рейске билет сатып алуу үчүн Bileton тиркемесин ачыңыз. Багыт жана күн сакталды.", noDate:"Күн тандалган жок" },
 },
@@ -794,7 +798,7 @@ zh:{
   a11y:{ skip:"跳转到内容", close:"关闭" },
   nav:{ how:"使用方法", routes:"热门路线", carriers:"承运商合作", faq:"常见问题", download:"下载应用", login:"登录" },
   mobileMenu:{ contact:"联系我们" },
-  hero:{ h1:"轻松找到您的长途汽车票", sub:"覆盖哈萨克斯坦及周边国家数百条线路，可靠的承运商，出行时间灵活方便。", statRoutes:"条路线", statCities:"座城市", statRating:"评分", reviewsCount:"21,384 条评价" },
+  hero:{ h1:"轻松找到您的长途汽车票", sub:"覆盖哈萨克斯坦及周边国家数百条线路，可靠的承运商，出行时间灵活方便。", statRoutes:"条路线", statCities:"座城市", statRating:"评分", reviewsCount:"21,384 条评价", soundOn:"开启声音", soundOff:"关闭声音" },
   search:{ from:"出发地", to:"目的地", fromPlaceholder:"请选择城市", toPlaceholder:"请选择城市", date:"出发日期", passengers:"乘客人数", decrease:"减少", increase:"增加", submit:"搜索车票", swap:"交换出发地和目的地", error:"请选择出发地和目的地城市。" },
   how:{ title:"使用方法", step1Title:"搜索", step1Text:"几秒钟内找到城市间的车票。", step2Title:"选择", step2Text:"自由选择座位、班车和时间。", step3Title:"支付", step3Text:"通过 Kaspi 安全支付。", step4Title:"出行", step4Text:"凭电子二维码车票在车站轻松检票上车。" },
   benefits:{ title:"乘客选择 Bileton 的理由", b1Title:"中转路线", b1Text:"如果没有直达班次，我们会通过邻近城市为您安排路线。", b2Title:"精准选座", b2Text:"在车厢座位图上挑选最合适的位置。", b3Title:"推荐奖励", b3Text:"邀请好友注册，即可获得 500 坚戈奖励。", b4Title:"乘客评价", b4Text:"查看真实乘客的评论与承运商评分。", b5Title:"轻松退票", b5Text:"计划有变时，您可以在应用内轻松办理退票。", b6Title:"无需现金", b6Text:"通过 Kaspi 一键完成支付。" },
@@ -813,7 +817,7 @@ zh:{
     q3:{ q:"支持哪些支付方式？", a:"支付通过 Kaspi 完成，安全且一键即可。" },
     q4:{ q:"如果没有直达班次怎么办？", a:"Bileton 会为您安排经由邻近城市中转的路线。" },
     q5:{ q:"如何获得邀请好友奖励？", a:"在应用中把您的推荐码发给好友，双方都会获得 500 坚戈奖励。" } },
-  footer:{ colPassenger:"乘客服务", colPartner:"合作伙伴", colCompany:"公司信息", stations:"汽车站合作", carrierPortal:"承运商后台", stationPortal:"汽车站后台", about:"Bileton 是覆盖哈萨克斯坦及周边国家的长途汽车票在线销售平台。", about2:"关于我们", contacts:"联系我们", terms:"使用条款", privacy:"隐私政策", legal:"Biletal.KZ 有限责任公司，税号 191 040 022 387", rights:"保留所有权利" },
+  footer:{ colPassenger:"乘客服务", colPartner:"合作伙伴", colCompany:"公司信息", stations:"汽车站合作", carrierPortal:"承运商后台", stationPortal:"汽车站后台", about:"Bileton 是覆盖哈萨克斯坦及周边国家的长途汽车票在线销售平台。", about2:"关于我们", contacts:"联系我们", terms:"使用条款", privacy:"隐私政策", deleteAccount:"删除账户", legal:"Biletal.KZ 有限责任公司，税号 191 040 022 387", rights:"保留所有权利" },
   whatsapp:{ label:"通过 WhatsApp 联系我们" },
   modal:{ text:"如需购买此班次车票，请打开 Bileton 应用。路线和日期已为您保存。", noDate:"未选择日期" },
 },
@@ -822,7 +826,7 @@ en:{
   a11y:{ skip:"Skip to content", close:"Close" },
   nav:{ how:"How it works", routes:"Routes", carriers:"For carriers", faq:"FAQ", download:"Get the app", login:"Log in" },
   mobileMenu:{ contact:"Contact us" },
-  hero:{ h1:"Find your bus ticket in one place", sub:"Hundreds of routes across Kazakhstan and neighboring countries, trusted carriers, convenient departure times.", statRoutes:"routes", statCities:"cities", statRating:"rating", reviewsCount:"21,384 ratings" },
+  hero:{ h1:"Find your bus ticket in one place", sub:"Hundreds of routes across Kazakhstan and neighboring countries, trusted carriers, convenient departure times.", statRoutes:"routes", statCities:"cities", statRating:"rating", reviewsCount:"21,384 ratings", soundOn:"Unmute", soundOff:"Mute" },
   search:{ from:"From", to:"To", fromPlaceholder:"Choose a city", toPlaceholder:"Choose a city", date:"Departure date", passengers:"Passengers", decrease:"Decrease", increase:"Increase", submit:"Search tickets", swap:"Swap origin and destination", error:"Please choose a departure and destination city." },
   how:{ title:"How it works", step1Title:"Search", step1Text:"Find a ticket from city to city in seconds.", step2Title:"Choose", step2Text:"Pick your seat, bus, and time yourself.", step3Title:"Pay", step3Text:"Pay securely through Kaspi.", step4Title:"Travel", step4Text:"Board easily at the station with your QR ticket." },
   benefits:{ title:"Why passengers choose Bileton", b1Title:"Connecting routes", b1Text:"No direct trip? We find a route through the nearest city.", b2Title:"Pick your seat", b2Text:"Choose the seat that suits you on the bus map.", b3Title:"Referral bonus", b3Text:"Invite a friend and get a 500 tenge bonus.", b4Title:"Passenger ratings", b4Text:"See real passenger reviews and carrier ratings.", b5Title:"Easy refunds", b5Text:"Plans changed? Refund your ticket in the app with ease.", b6Title:"No cash needed", b6Text:"Pay in one tap through Kaspi." },
@@ -841,7 +845,7 @@ en:{
     q3:{ q:"What payment methods are available?", a:"Payment goes through Kaspi, secure and in one tap." },
     q4:{ q:"What if there is no direct trip?", a:"Bileton will suggest a connecting route through the nearest city." },
     q5:{ q:"How do I get the friend referral bonus?", a:"Send your referral code from the app to a friend. You'll both get a 500 tenge bonus." } },
-  footer:{ colPassenger:"For passengers", colPartner:"For partners", colCompany:"Company", stations:"For bus stations", carrierPortal:"Carrier portal", stationPortal:"Station portal", about:"Bileton is an online bus ticket platform for Kazakhstan and neighboring countries.", about2:"About us", contacts:"Contacts", terms:"Terms of use", privacy:"Privacy policy", legal:"Biletal.KZ LLP, BIN 191 040 022 387", rights:"All rights reserved" },
+  footer:{ colPassenger:"For passengers", colPartner:"For partners", colCompany:"Company", stations:"For bus stations", carrierPortal:"Carrier portal", stationPortal:"Station portal", about:"Bileton is an online bus ticket platform for Kazakhstan and neighboring countries.", about2:"About us", contacts:"Contacts", terms:"Terms of use", privacy:"Privacy policy", deleteAccount:"Delete account", legal:"Biletal.KZ LLP, BIN 191 040 022 387", rights:"All rights reserved" },
   whatsapp:{ label:"Message us on WhatsApp" },
   modal:{ text:"To buy a ticket for this trip, open the Bileton app. Your route and date are already saved.", noDate:"No date selected" },
 },
@@ -1388,11 +1392,34 @@ function initCounters(){
 }
 
 /* =====================================================================
+   HERO PROMO VIDEO (desktop 16:9 / mobile 9:16, picked once via matchMedia
+   so a phone never fetches the desktop file. Reduced motion -> poster only.)
+   ===================================================================== */
+function initHeroVideo(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+  const video = document.getElementById(isMobile ? 'hero-video-mobile' : 'hero-video-desktop');
+  video.src = isMobile ? 'assets/video/bileton-promo-mobile.mp4' : 'assets/video/bileton-promo-desktop.mp4';
+  video.play().catch(() => {});
+
+  const btn = document.getElementById('hero-mute-toggle');
+  const icon = btn.querySelector('i');
+  btn.setAttribute('aria-label', T[lang].hero.soundOn);
+  btn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    btn.setAttribute('aria-pressed', String(!video.muted));
+    icon.className = video.muted ? 'ph ph-speaker-x text-lg' : 'ph ph-speaker-high text-lg';
+    btn.setAttribute('aria-label', video.muted ? T[lang].hero.soundOn : T[lang].hero.soundOff);
+  });
+}
+
+/* =====================================================================
    INIT
    ===================================================================== */
 document.getElementById('copyright-year').textContent = new Date().getFullYear();
 lang = detectLang();
 applyTranslations();
+initHeroVideo();
 window.addEventListener('load', () => { initReveals(); initCounters(); });
 </script>
 </body>
