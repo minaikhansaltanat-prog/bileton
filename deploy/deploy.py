@@ -46,7 +46,7 @@ def main():
                 sftp.mkdir(cur)
 
     # top-level html pages
-    for html_name in ("index.html", "privacy.html"):
+    for html_name in ("index.html", "privacy.html", "delete-account.html"):
         local_html = os.path.join(PROJECT_ROOT, html_name)
         if os.path.isfile(local_html):
             sftp.put(local_html, f"{args.path}/{html_name}")
