@@ -34,7 +34,7 @@ const suffix = label ? `-${label}` : '';
 const fileName = `screenshot-${next}${suffix}.png`;
 const outPath = path.join(outDir, fileName);
 
-const browser = await puppeteer.launch({ headless: 'new' });
+const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 try {
   const page = await browser.newPage();
   if (mobile) {
