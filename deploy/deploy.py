@@ -45,9 +45,12 @@ def main():
             except FileNotFoundError:
                 sftp.mkdir(cur)
 
-    # index.html
-    sftp.put(os.path.join(PROJECT_ROOT, "index.html"), f"{args.path}/index.html")
-    print("uploaded index.html")
+    # top-level html pages
+    for html_name in ("index.html", "privacy.html"):
+        local_html = os.path.join(PROJECT_ROOT, html_name)
+        if os.path.isfile(local_html):
+            sftp.put(local_html, f"{args.path}/{html_name}")
+            print(f"uploaded {html_name}")
 
     # assets/img/*
     local_img_dir = os.path.join(PROJECT_ROOT, "assets", "img")
