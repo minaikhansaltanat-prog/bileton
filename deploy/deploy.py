@@ -2,7 +2,7 @@
 """Deploy the Bileton static site to the PS.kz VPS.
 
 Uses SSH key auth (no password needed once the key is on the server, see
-`deploy/README.md`). Uploads index.html and assets/img/* via SFTP, then
+`deploy/README.md`). Uploads the HTML pages, assets/img/* and assets/video/* via SFTP, then
 reloads nginx. Works on Windows without rsync.
 
 Usage:
@@ -52,16 +52,19 @@ def main():
             sftp.put(local_html, f"{args.path}/{html_name}")
             print(f"uploaded {html_name}")
 
-    # assets/img/*
-    local_img_dir = os.path.join(PROJECT_ROOT, "assets", "img")
-    ensure_remote_dir(f"{args.path}/assets/img")
-    count = 0
-    for fname in os.listdir(local_img_dir):
-        local_path = os.path.join(local_img_dir, fname)
-        if os.path.isfile(local_path):
-            sftp.put(local_path, f"{args.path}/assets/img/{fname}")
-            count += 1
-    print(f"uploaded {count} files to assets/img/")
+    # assets/img/* and assets/video/*
+    for sub in ("img", "video"):
+        local_dir = os.path.join(PROJECT_ROOT, "assets", sub)
+        if not os.path.isdir(local_dir):
+            continue
+        ensure_remote_dir(f"{args.path}/assets/{sub}")
+        count = 0
+        for fname in os.listdir(local_dir):
+            local_path = os.path.join(local_dir, fname)
+            if os.path.isfile(local_path):
+                sftp.put(local_path, f"{args.path}/assets/{sub}/{fname}")
+                count += 1
+        print(f"uploaded {count} files to assets/{sub}/")
 
     sftp.close()
 
