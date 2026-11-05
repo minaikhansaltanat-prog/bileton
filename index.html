@@ -57,8 +57,20 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Bileton",
+  "legalName": "ТОО «Bileton»",
+  "taxID": "261140000117",
   "url": "https://bileton.kz/",
   "logo": "https://bileton.kz/assets/img/logo-full.png",
+  "telephone": "+7 747 167 3817",
+  "email": "info@bileton.kz",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Bokter St., 92",
+    "addressLocality": "Kaskelen",
+    "addressRegion": "Almaty Region",
+    "postalCode": "040900",
+    "addressCountry": "KZ"
+  },
   "sameAs": []
 }
 </script>
@@ -1006,14 +1018,17 @@
     </div>
   </div>
 
-  <div class="wrap mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-3 justify-between items-center text-white/55 text-xs text-center sm:text-left">
-    <p data-i18n="footer.legal">ТОО «Biletal.KZ», БИН 191 040 022 387</p>
-    <div class="flex flex-wrap justify-center gap-x-5 gap-y-1">
+  <div class="wrap mt-12 pt-8 border-t border-white/10 grid gap-x-10 gap-y-5 md:grid-cols-[1fr_auto] md:items-start">
+    <address class="not-italic text-sm leading-relaxed text-white/70">
+      <p class="font-heading font-extrabold text-white" data-i18n="footer.legal">ТОО «Bileton», БИН 261140000117</p>
+      <p class="mt-1 max-w-xl" data-i18n="footer.address">040900, Республика Казахстан, Алматинская область, Карасайский район, г. Каскелен, ул. Бөктер, д. 92</p>
+    </address>
+    <div class="flex flex-wrap gap-x-6 gap-y-1 text-sm md:flex-col md:items-end">
       <a href="tel:+77471673817" class="f-link">+7 747 167 3817</a>
       <a href="mailto:info@bileton.kz" class="f-link">info@bileton.kz</a>
     </div>
-    <p><span id="copyright-year">2026</span> Bileton. <span data-i18n="footer.rights">Барлық құқық қорғалған</span>.</p>
   </div>
+  <p class="wrap mt-6 text-white/55 text-xs">&copy; <span id="copyright-year">2026</span> Bileton. <span data-i18n="footer.rights">Барлық құқық қорғалған</span>.</p>
   <p class="wordmark" aria-hidden="true">BILETON</p>
 </footer>
 
@@ -1067,7 +1082,7 @@ ru:{
     q3:{ q:"Какие способы оплаты доступны?", a:"Оплата проходит через Kaspi, безопасно и в один клик." },
     q4:{ q:"Что делать, если нет прямого рейса?", a:"Bileton подберёт маршрут с пересадкой через ближайший город." },
     q5:{ q:"Как получить бонус за приглашение друга?", a:"Отправьте другу свой реферальный код в приложении, оба получите бонус 500 тенге." } },
-  footer:{ colPassenger:"Пассажирам", colPartner:"Партнёрам", colCompany:"Компания", stations:"Автовокзалам", carrierPortal:"Кабинет перевозчика", stationPortal:"Кабинет автовокзала", about:"Bileton - платформа онлайн-продажи автобусных билетов по Казахстану и соседним странам.", about2:"О нас", contacts:"Контакты", terms:"Условия использования", privacy:"Политика конфиденциальности", deleteAccount:"Удалить аккаунт", legal:"ТОО «Biletal.KZ», БИН 191 040 022 387", rights:"Все права защищены" },
+  footer:{ colPassenger:"Пассажирам", colPartner:"Партнёрам", colCompany:"Компания", stations:"Автовокзалам", carrierPortal:"Кабинет перевозчика", stationPortal:"Кабинет автовокзала", about:"Bileton - платформа онлайн-продажи автобусных билетов по Казахстану и соседним странам.", about2:"О нас", contacts:"Контакты", terms:"Условия использования", privacy:"Политика конфиденциальности", deleteAccount:"Удалить аккаунт", legal:"ТОО «Bileton», БИН 261140000117", address:"040900, Республика Казахстан, Алматинская область, Карасайский район, г. Каскелен, ул. Бөктер, д. 92", rights:"Все права защищены" },
   whatsapp:{ label:"Написать в WhatsApp" },
   modal:{ text:"Чтобы купить билет на этот рейс, откройте приложение Bileton. Маршрут и дата уже сохранены.", noDate:"Дата не выбрана" },
 },
@@ -1095,7 +1110,7 @@ kk:{
     q3:{ q:"Қандай төлем тәсілдері бар?", a:"Төлем Kaspi арқылы, қауіпсіз әрі бір басуда өтеді." },
     q4:{ q:"Тікелей рейс болмаса не істеймін?", a:"Bileton жақын қала арқылы ауысулы бағыт ұсынады." },
     q5:{ q:"Досты шақырғаны үшін бонусты қалай аламын?", a:"Қосымшадағы реферал кодыңызды досыңызға жіберіңіз, екеуің де 500 теңге бонус аласыздар." } },
-  footer:{ colPassenger:"Жолаушыға", colPartner:"Серіктестерге", colCompany:"Компания", stations:"Автовокзалдарға", carrierPortal:"Тасымалдаушы кабинеті", stationPortal:"Автовокзал кабинеті", about:"Bileton - Қазақстан мен көрші елдер бойынша автобус билеттерін онлайн сату платформасы.", about2:"Біз туралы", contacts:"Байланыс", terms:"Пайдалану шарттары", privacy:"Құпиялылық саясаты", deleteAccount:"Аккаунтты жою", legal:"«Biletal.KZ» ЖШС, БСН 191 040 022 387", rights:"Барлық құқық қорғалған" },
+  footer:{ colPassenger:"Жолаушыға", colPartner:"Серіктестерге", colCompany:"Компания", stations:"Автовокзалдарға", carrierPortal:"Тасымалдаушы кабинеті", stationPortal:"Автовокзал кабинеті", about:"Bileton - Қазақстан мен көрші елдер бойынша автобус билеттерін онлайн сату платформасы.", about2:"Біз туралы", contacts:"Байланыс", terms:"Пайдалану шарттары", privacy:"Құпиялылық саясаты", deleteAccount:"Аккаунтты жою", legal:"«Bileton» ЖШС, БСН 261140000117", address:"040900, Қазақстан Республикасы, Алматы облысы, Қарасай ауданы, Қаскелең қаласы, Бөктер көшесі, 92 үй", rights:"Барлық құқық қорғалған" },
   whatsapp:{ label:"WhatsApp арқылы жазыңыз" },
   modal:{ text:"Осы рейске билет сатып алу үшін Bileton қосымшасын ашыңыз. Бағыт пен күн сақталды.", noDate:"Күн таңдалмады" },
 },
@@ -1123,7 +1138,7 @@ uz:{
     q3:{ q:"Qanday to'lov usullari mavjud?", a:"To'lov Kaspi orqali, xavfsiz va bir bosishda amalga oshadi." },
     q4:{ q:"To'g'ridan-to'g'ri reys bo'lmasa nima qilaman?", a:"Bileton yaqin shahar orqali almashinuvli yo'nalish taklif qiladi." },
     q5:{ q:"Do'stni taklif qilgani uchun bonusni qanday olaman?", a:"Ilovadagi referal kodingizni do'stingizga yuboring, ikkalangiz ham 500 tenge bonus olasiz." } },
-  footer:{ colPassenger:"Yo'lovchilarga", colPartner:"Hamkorlarga", colCompany:"Kompaniya", stations:"Avtovokzallarga", carrierPortal:"Tashuvchi kabineti", stationPortal:"Avtovokzal kabineti", about:"Bileton - Qozog'iston va qo'shni davlatlar bo'ylab avtobus chiptalarini onlayn sotish platformasi.", about2:"Biz haqimizda", contacts:"Aloqa", terms:"Foydalanish shartlari", privacy:"Maxfiylik siyosati", deleteAccount:"Hisobni o'chirish", legal:"«Biletal.KZ» MChJ, BIN 191 040 022 387", rights:"Barcha huquqlar himoyalangan" },
+  footer:{ colPassenger:"Yo'lovchilarga", colPartner:"Hamkorlarga", colCompany:"Kompaniya", stations:"Avtovokzallarga", carrierPortal:"Tashuvchi kabineti", stationPortal:"Avtovokzal kabineti", about:"Bileton - Qozog'iston va qo'shni davlatlar bo'ylab avtobus chiptalarini onlayn sotish platformasi.", about2:"Biz haqimizda", contacts:"Aloqa", terms:"Foydalanish shartlari", privacy:"Maxfiylik siyosati", deleteAccount:"Hisobni o'chirish", legal:"«Bileton» MChJ, BIN 261140000117", address:"040900, Qozog'iston Respublikasi, Almati viloyati, Qarasay tumani, Kaskelen shahri, Bokter ko'chasi, 92-uy", rights:"Barcha huquqlar himoyalangan" },
   whatsapp:{ label:"WhatsApp orqali yozing" },
   modal:{ text:"Ushbu reysga chipta sotib olish uchun Bileton ilovasini oching. Yo'nalish va sana saqlab qo'yildi.", noDate:"Sana tanlanmadi" },
 },
@@ -1151,7 +1166,7 @@ ky:{
     q3:{ q:"Кандай төлөм ыкмалары бар?", a:"Төлөм Kaspi аркылуу, коопсуз жана бир басуу менен өтөт." },
     q4:{ q:"Түз рейс болбосо эмне кылам?", a:"Bileton жакынкы шаар аркылуу которуп өтүүчү багыт сунуштайт." },
     q5:{ q:"Дос чакыргандыгы үчүн бонусту кантип алам?", a:"Тиркемедеги референдук кодуңузду досуңузга жөнөтүңүз, экөөңүз тең 500 теңге бонус аласыздар." } },
-  footer:{ colPassenger:"Жолоочуларга", colPartner:"Өнөктөштөргө", colCompany:"Компания", stations:"Автобекеттерге", carrierPortal:"Ташуучу кабинети", stationPortal:"Автобекет кабинети", about:"Bileton - Казакстан жана коңшу өлкөлөр боюнча автобус билеттерин онлайн сатуу платформасы.", about2:"Биз жөнүндө", contacts:"Байланыш", terms:"Пайдалануу шарттары", privacy:"Купуялуулук саясаты", deleteAccount:"Аккаунтту өчүрүү", legal:"«Biletal.KZ» ЖЧК, БСН 191 040 022 387", rights:"Бардык укуктар корголгон" },
+  footer:{ colPassenger:"Жолоочуларга", colPartner:"Өнөктөштөргө", colCompany:"Компания", stations:"Автобекеттерге", carrierPortal:"Ташуучу кабинети", stationPortal:"Автобекет кабинети", about:"Bileton - Казакстан жана коңшу өлкөлөр боюнча автобус билеттерин онлайн сатуу платформасы.", about2:"Биз жөнүндө", contacts:"Байланыш", terms:"Пайдалануу шарттары", privacy:"Купуялуулук саясаты", deleteAccount:"Аккаунтту өчүрүү", legal:"«Bileton» ЖЧК, БСН 261140000117", address:"040900, Казакстан Республикасы, Алматы облусу, Карасай району, Каскелен шаары, Бөктер көчөсү, 92-үй", rights:"Бардык укуктар корголгон" },
   whatsapp:{ label:"WhatsApp аркылуу жазыңыз" },
   modal:{ text:"Бул рейске билет сатып алуу үчүн Bileton тиркемесин ачыңыз. Багыт жана күн сакталды.", noDate:"Күн тандалган жок" },
 },
@@ -1179,7 +1194,7 @@ zh:{
     q3:{ q:"支持哪些支付方式？", a:"支付通过 Kaspi 完成，安全且一键即可。" },
     q4:{ q:"如果没有直达班次怎么办？", a:"Bileton 会为您安排经由邻近城市中转的路线。" },
     q5:{ q:"如何获得邀请好友奖励？", a:"在应用中把您的推荐码发给好友，双方都会获得 500 坚戈奖励。" } },
-  footer:{ colPassenger:"乘客服务", colPartner:"合作伙伴", colCompany:"公司信息", stations:"汽车站合作", carrierPortal:"承运商后台", stationPortal:"汽车站后台", about:"Bileton 是覆盖哈萨克斯坦及周边国家的长途汽车票在线销售平台。", about2:"关于我们", contacts:"联系我们", terms:"使用条款", privacy:"隐私政策", deleteAccount:"删除账户", legal:"Biletal.KZ 有限责任公司，税号 191 040 022 387", rights:"保留所有权利" },
+  footer:{ colPassenger:"乘客服务", colPartner:"合作伙伴", colCompany:"公司信息", stations:"汽车站合作", carrierPortal:"承运商后台", stationPortal:"汽车站后台", about:"Bileton 是覆盖哈萨克斯坦及周边国家的长途汽车票在线销售平台。", about2:"关于我们", contacts:"联系我们", terms:"使用条款", privacy:"隐私政策", deleteAccount:"删除账户", legal:"Bileton 有限责任公司，BIN 261140000117", address:"哈萨克斯坦，阿拉木图州，Karasay 区，卡斯凯伦市，Bokter 街 92 号，邮编 040900", rights:"保留所有权利" },
   whatsapp:{ label:"通过 WhatsApp 联系我们" },
   modal:{ text:"如需购买此班次车票，请打开 Bileton 应用。路线和日期已为您保存。", noDate:"未选择日期" },
 },
@@ -1207,7 +1222,7 @@ en:{
     q3:{ q:"What payment methods are available?", a:"Payment goes through Kaspi, secure and in one tap." },
     q4:{ q:"What if there is no direct trip?", a:"Bileton will suggest a connecting route through the nearest city." },
     q5:{ q:"How do I get the friend referral bonus?", a:"Send your referral code from the app to a friend. You'll both get a 500 tenge bonus." } },
-  footer:{ colPassenger:"For passengers", colPartner:"For partners", colCompany:"Company", stations:"For bus stations", carrierPortal:"Carrier portal", stationPortal:"Station portal", about:"Bileton is an online bus ticket platform for Kazakhstan and neighboring countries.", about2:"About us", contacts:"Contacts", terms:"Terms of use", privacy:"Privacy policy", deleteAccount:"Delete account", legal:"Biletal.KZ LLP, BIN 191 040 022 387", rights:"All rights reserved" },
+  footer:{ colPassenger:"For passengers", colPartner:"For partners", colCompany:"Company", stations:"For bus stations", carrierPortal:"Carrier portal", stationPortal:"Station portal", about:"Bileton is an online bus ticket platform for Kazakhstan and neighboring countries.", about2:"About us", contacts:"Contacts", terms:"Terms of use", privacy:"Privacy policy", deleteAccount:"Delete account", legal:"Bileton LLP, BIN 261140000117", address:"040900, Republic of Kazakhstan, Almaty Region, Karasay District, Kaskelen, Bokter St., 92", rights:"All rights reserved" },
   whatsapp:{ label:"Message us on WhatsApp" },
   modal:{ text:"To buy a ticket for this trip, open the Bileton app. Your route and date are already saved.", noDate:"No date selected" },
 },
